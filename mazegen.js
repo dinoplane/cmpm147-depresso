@@ -25,6 +25,16 @@ class Maze{
         
         this.start = Math.floor(random(this.cellCount));
         this.end = -1;
+
+        this.player = new Player(this.getCoords(this.start).x * 3*TILE_WIDTH + 1.5*TILE_WIDTH, 
+                                this.getCoords(this.start).y*3*TILE_WIDTH + 1.5*TILE_WIDTH);
+    }
+
+    update(){
+        this.render();
+        let state = this.checkCollide();
+        console.log(state)
+        this.player.update(state);
     }
 
     resetMaze(){
@@ -125,10 +135,27 @@ class Maze{
         }
         // Pick a random endpoint.
         this.end = random(endpoints).node;
-        console.log(endpoints);
-        console.log(this.end);
+        //console.log(endpoints);
+        //console.log(this.end);
 
     }
+
+    wallOnTop(cell){
+        return (cell < this.cellLen) || (this.cells[cell][cell - this.cellLen] == 0);
+    }
+
+    wallOnRight(cell){
+        return (cell % this.cellLen == (this.cellLen - 1)) || (this.cells[cell][cell+1] == 0);
+    }
+
+    wallOnBottom(cell){
+        return (cell >= this.cellWid*(this.cellLen-1)) || (this.cells[cell][cell + this.cellLen] == 0);
+    }
+
+    wallOnLeft(cell){
+        return (cell % this.cellLen == 0) || (this.cells[cell][cell -1] == 0);
+    }
+
 
     drawCell(cell){
         
@@ -164,20 +191,21 @@ class Maze{
         // let x = cell % this.cellLen;
         // let y = Math.floor(cell / this.cellWid);
         fill(WALL_COLOR);
-        if (cell < this.cellLen || this.cells[cell][cell - this.cellLen] == 0){
+        if (this.wallOnTop(cell)){
             rect(TILE_WIDTH, 0, TILE_WIDTH, TILE_WIDTH);
         }
+
         // Draw right
-        if (cell % this.cellLen == (this.cellLen - 1) || this.cells[cell][cell+1] == 0){
+        if (this.wallOnRight(cell)){
             rect(TILE_WIDTH*2, TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
         }
 
         // Draw Bottom
-        if (cell >= this.cellWid*(this.cellLen-1) || this.cells[cell][cell + this.cellLen] == 0)
+        if (this.wallOnBottom(cell))
             rect(TILE_WIDTH, 2*TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
 
         // Draw Left
-        if (cell % this.cellLen == 0 || this.cells[cell][cell -1] == 0){
+        if (this.wallOnLeft(cell)){
             rect(0, TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
         }
 
@@ -195,4 +223,35 @@ class Maze{
         }
         pop();
     }
+
+    inCornerRange(i){
+        return (i < TILE_WIDTH-1) || (i > 2*TILE_WIDTH+1);
+    }
+
+
+    checkCollide(){
+        let x = Math.floor(map(this.player.x, 0, this.cellLen*CELL_WIDTH, 0, this.cellLen));
+        let y = Math.floor(map(this.player.y, 0, this.cellWid*CELL_WIDTH, 0, this.cellWid));
+        let c = this.getNode(x, y);
+
+        this.player.currentCell = c;
+        //console.log(this.player.currentCell);
+
+        let cx = this.player.x - x * CELL_WIDTH;
+        let cy = this.player.y - y * CELL_WIDTH;
+        
+        //console.log(cx, cy);
+        
+        console.log(this.inCornerRange(cy))
+        return {    
+                    touchingTop:    (cy <= TILE_WIDTH) && (this.wallOnTop(c) || this.inCornerRange(cx)) , 
+                    touchingRight:  (cx >= 2 * TILE_WIDTH) && (this.wallOnRight(c) || this.inCornerRange(cy)),
+                    touchingLeft:   (cx <= TILE_WIDTH) && (this.wallOnLeft(c) || this.inCornerRange(cy)),
+                    touchingBottom: (cy >= 2*TILE_WIDTH) && (this.wallOnBottom(c) || this.inCornerRange(cx))
+               }
+    }
+
+
 }
+
+

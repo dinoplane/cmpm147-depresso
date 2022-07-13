@@ -1,24 +1,39 @@
 var x = 200;
 var y = 200;
 
-function draw(){
-    circle(x, y, 10);
-    fill("blue");
 
-    movement();
-}
+class Player{
+    constructor(x, y, startCell){
+        this.x = x;
+        this.y = y;
 
-function movement(){
-    if(keyIsPressed){
-        if(keyCode == LEFT_ARROW){
-            x--;
-        } else if(keyCode == RIGHT_ARROW){
-            x++;
-        }
-        if(keyCode == UP_ARROW){
-                y--;
-        } else if(keyCode == DOWN_ARROW){
-                y++;
+        this.currentCell = -1;
+    }
+
+    update(state){
+        this.draw();
+        this.movement(state);
+    }
+
+    draw(){
+        fill("cyan");
+        //console.log(this.x, this.y);
+        circle(this.x, this.y, 10);
+        
+    }
+    
+    movement(state){
+        if(keyIsPressed){
+            if(keyIsDown(LEFT_ARROW) && !state.touchingLeft){
+                this.x--;
+            } else if(keyIsDown(RIGHT_ARROW) && !state.touchingRight){
+                this.x++;
+            }
+            if(keyIsDown(UP_ARROW) && !state.touchingTop){
+                this.y--;
+            } else if(keyIsDown(DOWN_ARROW) && !state.touchingBottom){
+                this.y++;
+            }
         }
     }
 }
