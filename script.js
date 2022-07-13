@@ -5,8 +5,8 @@ function preload(){
 let maze;
 function setup(){
     randomSeed();
-    maze = new Maze(10);
-    maze.removeWall(1, 3);
+    maze = new Maze(5);
+    maze.generateMaze();
     console.log(maze);
 }
 

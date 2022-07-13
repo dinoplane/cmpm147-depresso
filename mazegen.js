@@ -44,15 +44,10 @@ class Maze{
     */
     generateMaze() {
         // For simplification of DFS movement
-        function getCoords(node) {
-            return { x: node % this.cellLen, y: Math.floor(node / this.cellLen) }
-        }
-        function getNode(x, y){
-            return y * this.cellLen + x;
-        }
+        
         // Determine how/when to set a seed
         // Set random start location
-
+        
         let startNode = Math.floor(random() * this.cellCount );
 
         // Create array of explored cells
@@ -67,23 +62,32 @@ class Maze{
         while (stack.length) {
             // Pop a cell from the current stack, make it current
             let current = stack.pop();
+            console.log(current)
             // Get coordinates of current node
-            let currentCoords = getCoords(current);
+            let currentCoords = this.getCoords(current);
 
             // Check unvisited neighbors:
             let neighbours = [];
             // Left neighbor
-            if(x - 1 >= 0                && !visited.includes(getNode(currentCoords.x - 1, currentCoords.y    )))
-                neighbours.push(getNode(currentCoords.x - 1, currentCoords.y));
+            if(currentCoords.x - 1 >= 0                && !visited.includes(this.getNode(currentCoords.x - 1, currentCoords.y    ))) {
+                neighbours.push(this.getNode(currentCoords.x - 1, currentCoords.y));
+                //console.log('1')
+            }
             // Right neighbor
-            if(x + 1 <= this.cellLen - 1 && !visited.includes(getNode(currentCoords.x + 1, currentCoords.y    )))
-                neighbours.push(getNode(currentCoords.x - 1, currentCoords.y));
+            if(currentCoords.x + 1 <= this.cellLen - 1 && !visited.includes(this.getNode(currentCoords.x + 1, currentCoords.y    ))) {
+                neighbours.push(this.getNode(currentCoords.x + 1, currentCoords.y));
+                //console.log('2')
+            }
             // Up neighbor
-            if(y - 1 >= 0                && !visited.includes(getNode(currentCoords.x    , currentCoords.y - 1)))
-                neighbours.push(getNode(currentCoords.x - 1, currentCoords.y));
+            if(currentCoords.y - 1 >= 0                && !visited.includes(this.getNode(currentCoords.x    , currentCoords.y - 1))) {
+                neighbours.push(this.getNode(currentCoords.x, currentCoords.y - 1));
+                //console.log('3')
+            }
             // Down neighbor
-            if(y + 1 <= this.cellWid - 1 && !visited.includes(getNode(currentCoords.x    , currentCoords.y + 1)))
-                neighbours.push(getNode(currentCoords.x - 1, currentCoords.y));
+            if(currentCoords.y + 1 <= this.cellWid - 1 && !visited.includes(this.getNode(currentCoords.x    , currentCoords.y + 1))) {
+                neighbours.push(this.getNode(currentCoords.x, currentCoords.y + 1));
+                //console.log('4')
+            }
 
             if(neighbours.length) {
                 // If unvisited neighbors exist:
@@ -103,5 +107,13 @@ class Maze{
         }
 
 
+    }
+
+    getCoords(node) {
+        return { x: node % this.cellLen, y: Math.floor(node / this.cellLen) };
+    }
+
+    getNode(x, y){
+        return y * this.cellLen + x;
     }
 }
