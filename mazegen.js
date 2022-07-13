@@ -15,14 +15,22 @@
 
 
 class Maze{
-    constructor(length){
-        let size = length * length;
+    constructor(width, length){
+        let size = width * length;
         // Members added for use in generateMaze
         this.cellCount = size;
         this.cellLen = length;
-        this.cellWid = length;
+        this.cellWid = width;
         this.cells = Array.from(Array(size), _ => Array(size).fill(0));
+        
+        this.start = Math.floor(random(this.cellCount));
+        this.end = -1;
+    }
 
+    resetMaze(){
+        this.start = this.end;
+        this.end = -1;
+        this.cells.forEach(a => a.fill(0));
     }
 
     removeWall(cell1, cell2){
@@ -45,7 +53,10 @@ class Maze{
         // Determine how/when to set a seed
         // Set random start location
         
-        let startNode = Math.floor(random() * this.cellCount );
+        let startNode = this.start;
+
+
+        let endpoints = [];
 
         // Create array of explored cells
         let visited = [];
@@ -54,12 +65,13 @@ class Maze{
         let stack = []
         stack.push(startNode);
 
+        let isBacktracking = false;
         // DFS algorithm
         // Check that the stack is not empty
         while (stack.length) {
             // Pop a cell from the current stack, make it current
             let current = stack.pop();
-            console.log(current)
+            //console.log(current)
             // Get coordinates of current node
             let currentCoords = this.getCoords(current);
 
@@ -87,6 +99,7 @@ class Maze{
             }
 
             if(neighbours.length) {
+                isBacktracking = false;
                 // If unvisited neighbors exist:
                 // Push current onto stack
                 stack.push(current);
@@ -100,8 +113,21 @@ class Maze{
                 // Mark the current wall as visited and push to stack
                 visited.push(neighbor);
                 stack.push(neighbor);
+            } else {
+                // Check if path is large enough
+                let distance = stack.length;
+                if (distance > 1 && !isBacktracking){
+                    endpoints.push({node: current, distance: distance});
+                    isBacktracking = true;
+                }
+                
             }
         }
+        // Pick a random endpoint.
+        this.end = random(endpoints).node;
+        console.log(endpoints);
+        console.log(this.end);
+
     }
 
     drawCell(cell){
@@ -111,8 +137,19 @@ class Maze{
         noStroke();
         fill(PATH_COLOR);
         rect(0, 0, 3*TILE_WIDTH, 3*TILE_WIDTH);
-        stroke(0)
-        text(cell, TILE_WIDTH*1.5, TILE_WIDTH*1.5);
+
+        if (this.start == cell){
+            fill(START_COLOR);
+            rect(TILE_WIDTH, TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);    
+        }
+
+        if (this.end == cell){
+            fill(END_COLOR);
+            rect(TILE_WIDTH, TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);    
+        }
+
+        // stroke(0)
+        // text(cell, TILE_WIDTH*1.5, TILE_WIDTH*1.5);
         noStroke();
         fill(CORN_COLOR);
         for (let i = 0; i < 2; i++){
