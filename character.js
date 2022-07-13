@@ -1,7 +1,3 @@
-var x = 200;
-var y = 200;
-
-
 class Player{
     constructor(x, y, startCell){
         this.x = x;
@@ -19,9 +15,9 @@ class Player{
         fill("cyan");
         //console.log(this.x, this.y);
         circle(this.x, this.y, 10);
-        
+
     }
-    
+
     movement(state){
         if(keyIsPressed){
             if(keyIsDown(LEFT_ARROW) && !state.touchingLeft){
