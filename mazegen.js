@@ -1,14 +1,5 @@
 
-/*
-Choose the initial cell, mark it as visited and push it to the stack
-While the stack is not empty
-    Pop a cell from the stack and make it a current cell
-    If the current cell has any neighbours which have not been visited
-        Push the current cell to the stack
-        Choose one of the unvisited neighbours
-        Remove the wall between the current cell and the chosen cell
-        Mark the chosen cell as visited and push it to the stack
-*/
+
 
 // class Cell{
 //     constructor(x, y){
@@ -18,7 +9,7 @@ While the stack is not empty
 //                             {x: this.x + 1, y: this.y,      open: false}, // Right
 //                             {x: this.x,     y: this.y + 1,  open: false}, // Bottom
 //                             {x: this.x - 1, y: this.y,      open: false}  // Left
-//                          ] // 
+//                          ] //
 //     }
 // }
 
@@ -31,11 +22,19 @@ class Maze{
         this.cellLen = length;
         this.cellWid = length;
         this.cells = Array.from(Array(size), _ => Array(size).fill(0));
-        
+
     }
 
     removeWall(cell1, cell2){
         this.cells[cell1][cell2] = this.cells[cell2][cell1] = 1;
+    }
+
+    // For simplification of DFS movement
+    getCoords(node) {
+        return { x: node % this.cellLen, y: Math.floor(node / this.cellLen) }
+    }
+    getNode(x, y){
+        return y * this.cellLen + x;
     }
 
     /*
@@ -43,8 +42,6 @@ class Maze{
         Generates a maze using data provided in constructor
     */
     generateMaze() {
-        // For simplification of DFS movement
-        
         // Determine how/when to set a seed
         // Set random start location
         
@@ -105,15 +102,60 @@ class Maze{
                 stack.push(neighbor);
             }
         }
-
-
     }
 
-    getCoords(node) {
-        return { x: node % this.cellLen, y: Math.floor(node / this.cellLen) };
+    drawCell(cell){
+        
+        push();
+        //translate(-1.5* TILE_WIDTH, -1.5* TILE_WIDTH);
+        noStroke();
+        fill(PATH_COLOR);
+        rect(0, 0, 3*TILE_WIDTH, 3*TILE_WIDTH);
+        stroke(0)
+        text(cell, TILE_WIDTH*1.5, TILE_WIDTH*1.5);
+        noStroke();
+        fill(CORN_COLOR);
+        for (let i = 0; i < 2; i++){
+            for (let j = 0; j < 2; j++){
+                rect(i*2*TILE_WIDTH, j*2*TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
+            }   
+        }
+
+        // fetch cell
+        // Check if on boundaries
+        // Draw top
+        // let x = cell % this.cellLen;
+        // let y = Math.floor(cell / this.cellWid);
+        fill(WALL_COLOR);
+        if (cell < this.cellLen || this.cells[cell][cell - this.cellLen] == 0){
+            rect(TILE_WIDTH, 0, TILE_WIDTH, TILE_WIDTH);
+        }
+        // Draw right
+        if (cell % this.cellLen == (this.cellLen - 1) || this.cells[cell][cell+1] == 0){
+            rect(TILE_WIDTH*2, TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
+        }
+
+        // Draw Bottom
+        if (cell >= this.cellWid*(this.cellLen-1) || this.cells[cell][cell + this.cellLen] == 0)
+            rect(TILE_WIDTH, 2*TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
+
+        // Draw Left
+        if (cell % this.cellLen == 0 || this.cells[cell][cell -1] == 0){
+            rect(0, TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
+        }
+
+        pop();
     }
 
-    getNode(x, y){
-        return y * this.cellLen + x;
+    render(){
+        push();
+        for (let i = 0; i < this.cellCount; i++){
+            let coords = this.getCoords(i);
+            push();
+            translate(coords.x*3*TILE_WIDTH, coords.y*3*TILE_WIDTH);
+            this.drawCell(i);
+            pop();
+        }
+        pop();
     }
 }
