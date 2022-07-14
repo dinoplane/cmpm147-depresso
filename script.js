@@ -1,7 +1,7 @@
 function preload(){
 
 }
-const TILE_WIDTH = 23;
+const TILE_WIDTH = 33;
 const CELL_WIDTH = TILE_WIDTH * 3;
 const MAZE_WIDTH = 5;
 const MAZE_HEIGHT = 5;
@@ -24,7 +24,7 @@ function setup(){
       });
     randomSeed(seed);
     //player = new Player(0,0);
-    maze = new Maze(MAZE_HEIGHT, MAZE_WIDTH);
+    maze = new Maze(MAZE_HEIGHT, MAZE_WIDTH, 4);
     maze.generateMaze();
     console.log(maze);
 }

@@ -15,7 +15,7 @@
 
 
 class Maze{
-    constructor(width, length){
+    constructor(width, length, scale){
         let size = width * length;
         // Members added for use in generateMaze
         this.cellCount = size;
@@ -26,16 +26,17 @@ class Maze{
         this.start = Math.floor(random(this.cellCount));
         this.end = -1;
 
-        this.player = new Player(this.getCoords(this.start).x * 3*TILE_WIDTH + 1.5*TILE_WIDTH, 
-                                this.getCoords(this.start).y*3*TILE_WIDTH + 1.5*TILE_WIDTH);
-        this.camera = new Camera(this.player, 1);
+        this.player = new Player((this.getCoords(this.start).x * 3*TILE_WIDTH + 1.5*TILE_WIDTH)* scale, 
+                                (this.getCoords(this.start).y*3*TILE_WIDTH+ 1.5*TILE_WIDTH)*scale);
+        this.camera = new Camera(this.player, scale);
     }
 
     update(){
+        
         this.render();
         let state = this.checkCollide();
         //console.log(state)
-        this.player.update(state);
+        this.player.update(state, this.camera.scale);
         this.camera.update(this.player)
         //console.log(this.camera)
     }
@@ -163,7 +164,7 @@ class Maze{
     drawCell(cell){
         
         push();
-        //translate(-1.5* TILE_WIDTH, -1.5* TILE_WIDTH);
+        //translate(-1.5* TILE_WIDTH*this.camera.scale, -1.5* TILE_WIDTH*this.camera.scale);
         noStroke();
         fill(PATH_COLOR);
         rect(0, 0, 3*TILE_WIDTH*this.camera.scale, 3*TILE_WIDTH*this.camera.scale);
@@ -179,7 +180,7 @@ class Maze{
         }
 
         // stroke(0)
-        // text(cell, TILE_WIDTH*1.5, TILE_WIDTH*1.5);
+        // text(cell, TILE_WIDTH*this.camera.scale*1.5, TILE_WIDTH*this.camera.scale*1.5);
         noStroke();
         fill(CORN_COLOR);
         for (let i = 0; i < 2; i++){
@@ -200,7 +201,7 @@ class Maze{
 
         // Draw right
         if (this.wallOnRight(cell)){
-            rect(TILE_WIDTH*this.camera.scale*2, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
+            rect(2*TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
         }
 
         // Draw Bottom
@@ -220,7 +221,7 @@ class Maze{
         for (let i = 0; i < this.cellCount; i++){
             let coords = this.getCoords(i);
             push();
-            translate( (coords.x*3*TILE_WIDTH) - this.camera.offset_x, (coords.y*3*TILE_WIDTH) - this.camera.offset_y);
+            translate( (coords.x*3*TILE_WIDTH*this.camera.scale) - this.camera.offset_x, (coords.y*3*TILE_WIDTH*this.camera.scale) - this.camera.offset_y);
             this.drawCell(i);
             pop();
         }
@@ -228,29 +229,29 @@ class Maze{
     }
 
     inCornerRange(i){
-        return (i < TILE_WIDTH-1) || (i > 2*TILE_WIDTH+1);
+        return (i < TILE_WIDTH*this.camera.scale-1) || (i > 2*TILE_WIDTH*this.camera.scale+1);
     }
 
 
     checkCollide(){
-        let x = Math.floor(map(this.player.x, 0, this.cellLen*CELL_WIDTH, 0, this.cellLen));
-        let y = Math.floor(map(this.player.y, 0, this.cellWid*CELL_WIDTH, 0, this.cellWid));
+        let x = Math.floor(map(this.player.x, 0, this.cellLen*CELL_WIDTH*this.camera.scale, 0, this.cellLen));
+        let y = Math.floor(map(this.player.y, 0, this.cellWid*CELL_WIDTH*this.camera.scale, 0, this.cellWid));
         let c = this.getNode(x, y);
 
         this.player.currentCell = c;
         //console.log(this.player.currentCell);
 
-        let cx = this.player.x - x * CELL_WIDTH;
-        let cy = this.player.y - y * CELL_WIDTH;
+        let cx = this.player.x - x * CELL_WIDTH*this.camera.scale;
+        let cy = this.player.y - y * CELL_WIDTH*this.camera.scale;
         
         //console.log(cx, cy);
         
         console.log(this.inCornerRange(cy))
         return {    
-                    touchingTop:    (cy <= TILE_WIDTH) && (this.wallOnTop(c) || this.inCornerRange(cx)) , 
-                    touchingRight:  (cx >= 2 * TILE_WIDTH) && (this.wallOnRight(c) || this.inCornerRange(cy)),
-                    touchingLeft:   (cx <= TILE_WIDTH) && (this.wallOnLeft(c) || this.inCornerRange(cy)),
-                    touchingBottom: (cy >= 2*TILE_WIDTH) && (this.wallOnBottom(c) || this.inCornerRange(cx))
+                    touchingTop:    (cy <= TILE_WIDTH*this.camera.scale + 1) && (this.wallOnTop(c) || this.inCornerRange(cx)) , 
+                    touchingRight:  (cx >= 2 * TILE_WIDTH*this.camera.scale-1) && (this.wallOnRight(c) || this.inCornerRange(cy)),
+                    touchingLeft:   (cx <= TILE_WIDTH*this.camera.scale+1) && (this.wallOnLeft(c) || this.inCornerRange(cy)),
+                    touchingBottom: (cy >= 2*TILE_WIDTH*this.camera.scale-1) && (this.wallOnBottom(c) || this.inCornerRange(cx))
                }
     }
 
