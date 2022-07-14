@@ -37,7 +37,9 @@ class Maze{
         let state = this.checkCollide();
         //console.log(state)
         this.player.update(state, this.camera.scale);
-        this.camera.update(this.player)
+        this.camera.update(this.player);
+
+        return state.atGoal;
         //console.log(this.camera)
     }
 
@@ -251,8 +253,11 @@ class Maze{
                     touchingTop:    (cy <= TILE_WIDTH*this.camera.scale + 1) && (this.wallOnTop(c) || this.inCornerRange(cx)) , 
                     touchingRight:  (cx >= 2 * TILE_WIDTH*this.camera.scale-1) && (this.wallOnRight(c) || this.inCornerRange(cy)),
                     touchingLeft:   (cx <= TILE_WIDTH*this.camera.scale+1) && (this.wallOnLeft(c) || this.inCornerRange(cy)),
-                    touchingBottom: (cy >= 2*TILE_WIDTH*this.camera.scale-1) && (this.wallOnBottom(c) || this.inCornerRange(cx))
-               }
+                    touchingBottom: (cy >= 2*TILE_WIDTH*this.camera.scale-1) && (this.wallOnBottom(c) || this.inCornerRange(cx)),
+                    atGoal: (cx >= TILE_WIDTH*this.camera.scale && cx <= 2*TILE_WIDTH*this.camera.scale) && 
+                                (cy >= TILE_WIDTH*this.camera.scale && cy <= 2*TILE_WIDTH*this.camera.scale) && 
+                                (c == this.end)
+                }
     }
 
 

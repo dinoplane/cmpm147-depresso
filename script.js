@@ -38,7 +38,8 @@ function newSeed(){
 
 function draw(){
     background(220);
-    maze.update();
+    if (maze.update())
+        newSeed();
     
 }
 
