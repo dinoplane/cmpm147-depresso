@@ -12,10 +12,11 @@ class Player{
     }
 
     draw(){
+        push();
         fill("cyan");
         //console.log(this.x, this.y);
-        circle(this.x, this.y, 10);
-
+        circle(width/2, height/2, 10);
+        pop();
     }
 
     movement(state){

@@ -28,13 +28,16 @@ class Maze{
 
         this.player = new Player(this.getCoords(this.start).x * 3*TILE_WIDTH + 1.5*TILE_WIDTH, 
                                 this.getCoords(this.start).y*3*TILE_WIDTH + 1.5*TILE_WIDTH);
+        this.camera = new Camera(this.player, 1);
     }
 
     update(){
         this.render();
         let state = this.checkCollide();
-        console.log(state)
+        //console.log(state)
         this.player.update(state);
+        this.camera.update(this.player)
+        //console.log(this.camera)
     }
 
     resetMaze(){
@@ -163,16 +166,16 @@ class Maze{
         //translate(-1.5* TILE_WIDTH, -1.5* TILE_WIDTH);
         noStroke();
         fill(PATH_COLOR);
-        rect(0, 0, 3*TILE_WIDTH, 3*TILE_WIDTH);
+        rect(0, 0, 3*TILE_WIDTH*this.camera.scale, 3*TILE_WIDTH*this.camera.scale);
 
         if (this.start == cell){
             fill(START_COLOR);
-            rect(TILE_WIDTH, TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);    
+            rect(TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);    
         }
 
         if (this.end == cell){
             fill(END_COLOR);
-            rect(TILE_WIDTH, TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);    
+            rect(TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);    
         }
 
         // stroke(0)
@@ -181,7 +184,7 @@ class Maze{
         fill(CORN_COLOR);
         for (let i = 0; i < 2; i++){
             for (let j = 0; j < 2; j++){
-                rect(i*2*TILE_WIDTH, j*2*TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
+                rect(i*2*TILE_WIDTH*this.camera.scale, j*2*TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
             }   
         }
 
@@ -192,21 +195,21 @@ class Maze{
         // let y = Math.floor(cell / this.cellWid);
         fill(WALL_COLOR);
         if (this.wallOnTop(cell)){
-            rect(TILE_WIDTH, 0, TILE_WIDTH, TILE_WIDTH);
+            rect(TILE_WIDTH*this.camera.scale, 0, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
         }
 
         // Draw right
         if (this.wallOnRight(cell)){
-            rect(TILE_WIDTH*2, TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
+            rect(TILE_WIDTH*this.camera.scale*2, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
         }
 
         // Draw Bottom
         if (this.wallOnBottom(cell))
-            rect(TILE_WIDTH, 2*TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
+            rect(TILE_WIDTH*this.camera.scale, 2*TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
 
         // Draw Left
         if (this.wallOnLeft(cell)){
-            rect(0, TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
+            rect(0, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
         }
 
         pop();
@@ -217,7 +220,7 @@ class Maze{
         for (let i = 0; i < this.cellCount; i++){
             let coords = this.getCoords(i);
             push();
-            translate(coords.x*3*TILE_WIDTH, coords.y*3*TILE_WIDTH);
+            translate( (coords.x*3*TILE_WIDTH) - this.camera.offset_x, (coords.y*3*TILE_WIDTH) - this.camera.offset_y);
             this.drawCell(i);
             pop();
         }

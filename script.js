@@ -3,8 +3,8 @@ function preload(){
 }
 const TILE_WIDTH = 23;
 const CELL_WIDTH = TILE_WIDTH * 3;
-const MAZE_WIDTH = 3;
-const MAZE_HEIGHT = 3;
+const MAZE_WIDTH = 5;
+const MAZE_HEIGHT = 5;
 
 const WALL_COLOR = "#000000";
 const PATH_COLOR = "#FFFFFF";
@@ -17,7 +17,7 @@ let maze;
 let seed = 0;
 let player;
 function setup(){
-    createCanvas(TILE_WIDTH*MAZE_WIDTH*3, TILE_WIDTH*MAZE_HEIGHT*3);
+    createCanvas(TILE_WIDTH*3*3, TILE_WIDTH*3*3);
     createButton("reroll").mousePressed(() =>{
                               
         newSeed();
