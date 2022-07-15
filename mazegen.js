@@ -163,6 +163,29 @@ class Maze{
     }
 
 
+    // From https://www.geeksforgeeks.org/rotate-bits-of-an-integer/
+    /*Function to left rotate n by d bits*/
+    
+    leftRotate( n,  d)
+    {   
+        /* In n<<d, last d bits are 0. To
+        put first 3 bits of n at
+        last, do bitwise or of n<<d
+        with n >>(INT_BITS - d) */
+        return ((n << d) | (n >> (INT_BITS - d))) & (2**INT_BITS -1);
+    }
+    
+    /*Function to right rotate n by d bits*/
+    rightRotate( n, d)
+    {
+        /* In n>>d, first d bits are 0.
+        To put last 3 bits of at
+        first, do bitwise or of n>>d
+        with n <<(INT_BITS - d) */
+        return ((n >> d) | (n << (INT_BITS - d))) & (2**INT_BITS -1);
+    }
+ 
+
     drawCell(cell){
         
         push();
@@ -185,35 +208,66 @@ class Maze{
         // text(cell, TILE_WIDTH*this.camera.scale*1.5, TILE_WIDTH*this.camera.scale*1.5);
         noStroke();
         fill(CORN_COLOR);
-        for (let i = 0; i < 2; i++){
-            for (let j = 0; j < 2; j++){
-                rect(i*2*TILE_WIDTH*this.camera.scale, j*2*TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
-            }   
+
+        //get n_code
+        let n_code = 0;
+        let checks = [(c) => { return this.wallOnLeft(c)}, 
+            (c) => { return this.wallOnTop(c)}, 
+            (c) => { return this.wallOnRight(c)}, 
+            (c) => { return this.wallOnBottom(c)}];
+        //console.log(cell)
+        for (let n = 0; n < 4; n++){
+            if (checks[n](cell)){
+                image(tiles[n+8], POSITIONS[n][0]*this.camera.scale,
+                                    POSITIONS[n][1]*this.camera.scale)
+                n_code |= 2**(n);   
+                
+            }
+        }
+        text(n_code, TILE_WIDTH*1.5*this.camera.scale, TILE_WIDTH*1.5*this.camera.scale)
+        console.log("for", n_code)
+        for (let i = 0; i < 4; i++){
+            // me no like this
+            let n2code = n_code & 3;
+          //  console.log(n2code  )
+            let isWall = ((n2code + 1) % 4) > 1;
+            let tile_n = (!isWall) ? i*2 + ((n2code > 1)*1): 8 + (i+(n2code > 1)*1)% 4;
+            
+            console.log(n2code, tile_n)
+            
+
+            let cx = (((i+1) % 4) <= 1) ? POSITIONS[0][0] : POSITIONS[2][0];
+            let cy = (i <= 1) ? POSITIONS[1][1] : POSITIONS[3][1];
+            //console.log(i,cx, cy)
+
+            image(tiles[tile_n], cx* this.camera.scale, cy*this.camera.scale);
+
+            n_code = this.rightRotate(n_code, 1);
         }
 
         // fetch cell
         // Check if on boundaries
-        // Draw top
+//        Draw top
         // let x = cell % this.cellLen;
         // let y = Math.floor(cell / this.cellWid);
-        fill(WALL_COLOR);
-        if (this.wallOnTop(cell)){
-            rect(TILE_WIDTH*this.camera.scale, 0, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
-        }
+        // fill(WALL_COLOR);
+        // if (this.wallOnTop(cell)){
+        //     rect(TILE_WIDTH*this.camera.scale, 0, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
+        // }
 
-        // Draw right
-        if (this.wallOnRight(cell)){
-            rect(2*TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
-        }
+        // // Draw right
+        // if (this.wallOnRight(cell)){
+        //     rect(2*TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
+        // }
 
-        // Draw Bottom
-        if (this.wallOnBottom(cell))
-            rect(TILE_WIDTH*this.camera.scale, 2*TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
+        // // Draw Bottom
+        // if (this.wallOnBottom(cell))
+        //     rect(TILE_WIDTH*this.camera.scale, 2*TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
 
-        // Draw Left
-        if (this.wallOnLeft(cell)){
-            rect(0, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
-        }
+        // // Draw Left
+        // if (this.wallOnLeft(cell)){
+        //     rect(0, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
+        // }
 
         pop();
     }
@@ -224,7 +278,9 @@ class Maze{
             let coords = this.getCoords(i);
             push();
             translate( (coords.x*3*TILE_WIDTH*this.camera.scale) - this.camera.offset_x, (coords.y*3*TILE_WIDTH*this.camera.scale) - this.camera.offset_y);
+            //console.log(i)
             this.drawCell(i);
+            
             pop();
         }
         pop();
@@ -248,7 +304,7 @@ class Maze{
         
         //console.log(cx, cy);
         
-        console.log(this.inCornerRange(cy))
+        //console.log(this.inCornerRange(cy))
         return {    
                     touchingTop:    (cy <= TILE_WIDTH*this.camera.scale + 1) && (this.wallOnTop(c) || this.inCornerRange(cx)) , 
                     touchingRight:  (cx >= 2 * TILE_WIDTH*this.camera.scale-1) && (this.wallOnRight(c) || this.inCornerRange(cy)),
