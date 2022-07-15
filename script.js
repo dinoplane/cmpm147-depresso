@@ -19,7 +19,7 @@ let player;
 function setup(){
     createCanvas(TILE_WIDTH*MAZE_WIDTH*3, TILE_WIDTH*MAZE_HEIGHT*3);
     createButton("reroll (debug)").mousePressed(() =>{
-                              
+
         newSeed();
       });
     randomSeed(seed);
@@ -40,7 +40,5 @@ function draw(){
     background(220);
     if (maze.update())
         newSeed();
-    
+
 }
-
-

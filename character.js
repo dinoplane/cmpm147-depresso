@@ -15,7 +15,6 @@ class Player{
         push();
         fill("cyan");
         
-        //console.log(this.x, this.y);
         circle(width/2, height/2, 10);
         pop();
     }
