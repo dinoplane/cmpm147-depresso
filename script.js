@@ -17,14 +17,14 @@ let maze;
 let seed = 0;
 let player;
 function setup(){
-    createCanvas(TILE_WIDTH*3*3, TILE_WIDTH*3*3);
-    createButton("reroll").mousePressed(() =>{
+    createCanvas(TILE_WIDTH*MAZE_WIDTH*3, TILE_WIDTH*MAZE_HEIGHT*3);
+    createButton("reroll (debug)").mousePressed(() =>{
                               
         newSeed();
       });
     randomSeed(seed);
     //player = new Player(0,0);
-    maze = new Maze(MAZE_HEIGHT, MAZE_WIDTH, 4);
+    maze = new Maze(MAZE_HEIGHT, MAZE_WIDTH, 1);
     maze.generateMaze();
     console.log(maze);
 }
