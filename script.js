@@ -54,6 +54,11 @@ function setup(){
     maze = new Maze(MAZE_HEIGHT, MAZE_WIDTH, CAMERA_SCALE);
     maze.generateMaze();
     console.log(maze);
+    let test = new StudentGen(3, articleColor, articleNames);
+    createButton("new student").mousePressed(() =>{
+        console.log(test.generateStudent());
+        //console.log(test.possibleClothes);
+    })
 }
 
 function newSeed(){

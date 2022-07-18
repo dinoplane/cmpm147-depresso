@@ -225,7 +225,7 @@ class Maze{
             }
         }
         text(n_code, TILE_WIDTH*1.5*this.camera.scale, TILE_WIDTH*1.5*this.camera.scale)
-        console.log("for", n_code)
+        //console.log("for", n_code)
         for (let i = 0; i < 4; i++){
             // me no like this
             let n2code = n_code & 3;
@@ -233,7 +233,7 @@ class Maze{
             let isWall = ((n2code + 1) % 4) > 1;
             let tile_n = (!isWall) ? i*2 + ((n2code > 1)*1): 8 + (i+(n2code > 1)*1)% 4;
             
-            console.log(n2code, tile_n)
+            //console.log(n2code, tile_n)
             
 
             let cx = (((i+1) % 4) <= 1) ? POSITIONS[0][0] : POSITIONS[2][0];
