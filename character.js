@@ -1,22 +1,52 @@
+let idleLeft, idleRight, walkLeft, walkRight, count=2;
 class Player{
     constructor(x, y, startCell){
         this.x = x;
         this.y = y;
 
         this.currentCell = -1;
+        walkLeft = loadImage('assets/walkLeft.gif');
+        walkRight = loadImage('assets/walkRight.gif');
+        idleLeft = loadImage('assets/idleLeft.gif');
+        idleRight = loadImage('assets/idleRight.gif');
     }
 
     update(state, scale){
         this.draw();
         this.movement(state, scale);
+
     }
 
     draw(){
         push();
-        fill("cyan");
-        
-        //console.log(this.x, this.y);
-        circle(width/2, height/2, 10);
+
+        if(keyIsPressed && keyIsDown(LEFT_ARROW)){
+            image(walkLeft, width/2, height/2);
+            count = 1;
+        }
+        else if(keyIsPressed && keyIsDown(RIGHT_ARROW)){
+            image(walkRight, width/2, height/2);
+            count = 2;
+        }
+        else if(keyIsPressed && keyIsDown(DOWN_ARROW)){
+            if(count == 1)
+                image(walkLeft, width/2, height/2);
+            else
+            image(walkRight, width/2, height/2);
+        }
+        else if(keyIsPressed && keyIsDown(UP_ARROW)){
+            if(count == 1)
+                image(walkLeft, width/2, height/2);
+            else
+            image(walkRight, width/2, height/2);
+        }
+        else{
+            if(count == 1)
+                image(idleLeft, width/2, height/2);
+            if(count == 2)
+                image(idleRight, width/2, height/2);
+        }
+
         pop();
     }
 
