@@ -29,6 +29,10 @@ class Maze{
         this.player = new Player((this.getCoords(this.start).x * 3*TILE_WIDTH + 1.5*TILE_WIDTH)* scale, 
                                 (this.getCoords(this.start).y*3*TILE_WIDTH+ 1.5*TILE_WIDTH)*scale);
         this.camera = new Camera(this.player, scale);
+
+        this.studentGen = new StudentGen(3, articleColor, articleNames);
+        let selected = -1;
+        this.students = [];
     }
 
     update(){
@@ -140,7 +144,14 @@ class Maze{
             }
         }
         // Pick a random endpoint.
-        this.end = random(endpoints).node;
+
+        let n = Math.floor(random(0, endpoints.length));
+        
+        this.students = this.studentGen.generateNStudents(endpoints.length, Array.from(endpoints, _ => this.getCoords(_)));
+        
+        this.end = endpoints[n].node;
+        
+        this.selected = n;
         //console.log(endpoints);
         //console.log(this.end);
 
