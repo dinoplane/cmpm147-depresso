@@ -22,17 +22,17 @@ class Maze{
         this.cellLen = length;
         this.cellWid = width;
         this.cells = Array.from(Array(size), _ => Array(size).fill(0));
-        
+
         this.start = Math.floor(random(this.cellCount));
         this.end = -1;
 
-        this.player = new Player((this.getCoords(this.start).x * 3*TILE_WIDTH + 1.5*TILE_WIDTH)* scale, 
+        this.player = new Player((this.getCoords(this.start).x * 3*TILE_WIDTH + 1.5*TILE_WIDTH)* scale,
                                 (this.getCoords(this.start).y*3*TILE_WIDTH+ 1.5*TILE_WIDTH)*scale);
         this.camera = new Camera(this.player, scale);
     }
 
     update(){
-        
+
         this.render();
         let state = this.checkCollide();
         //console.log(state)
@@ -68,7 +68,7 @@ class Maze{
     generateMaze() {
         // Determine how/when to set a seed
         // Set random start location
-        
+
         let startNode = this.start;
 
 
@@ -136,7 +136,7 @@ class Maze{
                     endpoints.push({node: current, distance: distance});
                     isBacktracking = true;
                 }
-                
+
             }
         }
         // Pick a random endpoint.
@@ -165,16 +165,16 @@ class Maze{
 
     // From https://www.geeksforgeeks.org/rotate-bits-of-an-integer/
     /*Function to left rotate n by d bits*/
-    
+
     leftRotate( n,  d)
-    {   
+    {
         /* In n<<d, last d bits are 0. To
         put first 3 bits of n at
         last, do bitwise or of n<<d
         with n >>(INT_BITS - d) */
         return ((n << d) | (n >> (INT_BITS - d))) & (2**INT_BITS -1);
     }
-    
+
     /*Function to right rotate n by d bits*/
     rightRotate( n, d)
     {
@@ -184,10 +184,10 @@ class Maze{
         with n <<(INT_BITS - d) */
         return ((n >> d) | (n << (INT_BITS - d))) & (2**INT_BITS -1);
     }
- 
+
 
     drawCell(cell){
-        
+
         push();
         //translate(-1.5* TILE_WIDTH*this.camera.scale, -1.5* TILE_WIDTH*this.camera.scale);
         noStroke();
@@ -196,12 +196,12 @@ class Maze{
 
         if (this.start == cell){
             fill(START_COLOR);
-            rect(TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);    
+            rect(TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
         }
 
         if (this.end == cell){
             fill(END_COLOR);
-            rect(TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);    
+            rect(TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
         }
 
         // stroke(0)
@@ -211,17 +211,17 @@ class Maze{
 
         //get n_code
         let n_code = 0;
-        let checks = [(c) => { return this.wallOnLeft(c)}, 
-            (c) => { return this.wallOnTop(c)}, 
-            (c) => { return this.wallOnRight(c)}, 
+        let checks = [(c) => { return this.wallOnLeft(c)},
+            (c) => { return this.wallOnTop(c)},
+            (c) => { return this.wallOnRight(c)},
             (c) => { return this.wallOnBottom(c)}];
         //console.log(cell)
         for (let n = 0; n < 4; n++){
             if (checks[n](cell)){
                 image(tiles[n+8], POSITIONS[n][0]*this.camera.scale,
                                     POSITIONS[n][1]*this.camera.scale)
-                n_code |= 2**(n);   
-                
+                n_code |= 2**(n);
+
             }
         }
         text(n_code, TILE_WIDTH*1.5*this.camera.scale, TILE_WIDTH*1.5*this.camera.scale)
@@ -232,9 +232,9 @@ class Maze{
           //  console.log(n2code  )
             let isWall = ((n2code + 1) % 4) > 1;
             let tile_n = (!isWall) ? i*2 + ((n2code > 1)*1): 8 + (i+(n2code > 1)*1)% 4;
-            
+
             console.log(n2code, tile_n)
-            
+
 
             let cx = (((i+1) % 4) <= 1) ? POSITIONS[0][0] : POSITIONS[2][0];
             let cy = (i <= 1) ? POSITIONS[1][1] : POSITIONS[3][1];
@@ -280,7 +280,7 @@ class Maze{
             translate( (coords.x*3*TILE_WIDTH*this.camera.scale) - this.camera.offset_x, (coords.y*3*TILE_WIDTH*this.camera.scale) - this.camera.offset_y);
             //console.log(i)
             this.drawCell(i);
-            
+
             pop();
         }
         pop();
@@ -301,22 +301,20 @@ class Maze{
 
         let cx = this.player.x - x * CELL_WIDTH*this.camera.scale;
         let cy = this.player.y - y * CELL_WIDTH*this.camera.scale;
-        
+
         //console.log(cx, cy);
-        
+
         //console.log(this.inCornerRange(cy))
-        return {    
-                    touchingTop:    (cy <= TILE_WIDTH*this.camera.scale + 1) && (this.wallOnTop(c) || this.inCornerRange(cx)) , 
-                    touchingRight:  (cx >= 2 * TILE_WIDTH*this.camera.scale-1) && (this.wallOnRight(c) || this.inCornerRange(cy)),
+        return {
+                    touchingTop:    (cy <= TILE_WIDTH*this.camera.scale + 1) && (this.wallOnTop(c) || this.inCornerRange(cx)) ,
+                    touchingRight:  (cx >= 1.2 * TILE_WIDTH*this.camera.scale-1) && (this.wallOnRight(c) || this.inCornerRange(cy)),
                     touchingLeft:   (cx <= TILE_WIDTH*this.camera.scale+1) && (this.wallOnLeft(c) || this.inCornerRange(cy)),
-                    touchingBottom: (cy >= 2*TILE_WIDTH*this.camera.scale-1) && (this.wallOnBottom(c) || this.inCornerRange(cx)),
-                    atGoal: (cx >= TILE_WIDTH*this.camera.scale && cx <= 2*TILE_WIDTH*this.camera.scale) && 
-                                (cy >= TILE_WIDTH*this.camera.scale && cy <= 2*TILE_WIDTH*this.camera.scale) && 
+                    touchingBottom: (cy >= 1.4*TILE_WIDTH*this.camera.scale-1) && (this.wallOnBottom(c) || this.inCornerRange(cx)),
+                    atGoal: (cx >= TILE_WIDTH*this.camera.scale && cx <= 2*TILE_WIDTH*this.camera.scale) &&
+                                (cy >= TILE_WIDTH*this.camera.scale && cy <= 2*TILE_WIDTH*this.camera.scale) &&
                                 (c == this.end)
                 }
     }
 
 
 }
-
-
