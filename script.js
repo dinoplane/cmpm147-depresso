@@ -64,6 +64,7 @@ function newSeed(){
     randomSeed(seed);
     maze.resetMaze();
     maze.generateMaze();
+    updateBox();
 }
 
 function draw(){
@@ -74,6 +75,16 @@ function draw(){
 }
 
 function updateBox() {
-    box.innerText = 'this is a test.';
-    console.log("here!")
+    console.log(select('#box').elt.innerText)
+    let uniform = maze.getGoalStudent().attire;
+    let starter = "Deliver the coffee to the student with the "
+    let i = 0;
+    for(; i < articleNames.length - 1; i++){
+        
+        starter += `${uniform[articleNames[i]]} ${articleNames[i]}, `;
+    }
+    starter += `and ${uniform[articleNames[i]]} ${articleNames[i]}.`;
+
+    select('#box').elt.innerText = starter;
 }
+

@@ -177,6 +177,14 @@ class Maze{
 
     }
 
+    getGoalStudent(){
+        let ret = "";
+        if (this.selected != -1){
+            ret = this.students[this.selected];
+        }
+        return ret;
+    }
+
     wallOnTop(cell){
         return (cell < this.cellLen) || (this.cells[cell][cell - this.cellLen] == 0);
     }
