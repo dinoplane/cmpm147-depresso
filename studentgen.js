@@ -22,16 +22,16 @@ class Student{
         fill("#e0e6ff");
         noStroke();
 
-        circle(this.x, this.y, 12); // head
-        arc(this.x, this.y +27, 15, 40, PI, 0, CHORD); // bodthis.y
-        arc(this.x -3, this.y +26, 4, 20, 0, radians(180)); // left leg
-        arc(this.x +3, this.y +26, 4, 20, 0, radians(180)); // right leg
+        circle(this.x, this.y -9, 28); // head
+        arc(this.x, this.y +50, 32, 90, PI, 0, CHORD); // body
+        arc(this.x -7, this.y +50, 7, 30, 0, radians(180)); // left leg
+        arc(this.x +7, this.y +50, 7, 30, 0, radians(180)); // right leg
 
-        translate(this.x -6, this.y +12);
+        translate(this.x -16, this.y +17);
         rotate(45);
-        ellipse(0, 0, 4, 15); // left arm
+        ellipse(0, 0, 8, 25); // left arm
         rotate(45);
-        ellipse(-6, -12, 4, 15); // right arm
+        ellipse(-16, -29, 8, 25); // right arm
         pop();
     }
 }
@@ -101,11 +101,11 @@ class StudentGen{
         for (let s of students){
             //console.log("aofjdsj");
             push();
-            translate( (s.x*3*TILE_WIDTH + 1.5*TILE_WIDTH)*this.camera.scale - this.camera.offset_x, 
+            translate( (s.x*3*TILE_WIDTH + 1.5*TILE_WIDTH)*this.camera.scale - this.camera.offset_x,
                         (s.y*3*TILE_WIDTH + 1.5*TILE_WIDTH)*this.camera.scale - this.camera.offset_y);
 
             s.drawBody();
-            pop();    
+            pop();
         };
     }
 }
