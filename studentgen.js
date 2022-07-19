@@ -1,9 +1,9 @@
 const articleColor = ['red', 'blue', 'green'];
-const articleNames = ['something1', 'something2', 'something3'];
+const articleNames = ['shirt', 'pants', 'socks'];
 
 
 class Student{
-    constructor(articleNames, colors, x, y, tx, ty){
+    constructor(colors, x, y, tx, ty){
 
         this.x = x;
         this.y = y;
@@ -34,6 +34,52 @@ class Student{
         ellipse(-16.5, -30, 9, 37); // right arm
         pop();
     }
+
+
+
+    renderCloth( v, color){
+        push();
+        noStroke();
+        fill(color);
+        
+        
+        beginShape();
+        for (let i = 0; i < v.length; i++){
+          //console.log(i, v[i].type)
+    
+          if (v[i].type == "v")
+            vertex(v[i].x, v[i].y);
+          if (v[i].type == "c")
+            curveVertex(v[i].x, v[i].y);
+          if (v[i].type == "b"){
+            let bezierCache = [];
+            for( let n = 0; n < 3; n++, i++){
+              //console.log(v[i])
+              if (i >= v.length || v[i].type != "b")
+                break;
+              bezierCache.push(v[i].x, v[i].y)
+            }
+            
+            if (bezierCache.length == 6){
+              bezierVertex(...bezierCache);        
+            }
+            i -= 1;
+            
+            //console.log(bezierCache)
+          }
+            
+        }
+        
+        
+        endShape(CLOSE);
+        pop();
+        
+      }
+
+    drawUniform(){
+
+    }
+
 }
 
 /*
@@ -60,7 +106,7 @@ class StudentGen{
             //console.log(this.possibleClothes[i])
             clothes.push(this.popRandom(this.possibleClothes[i]));
         }
-        return new Student(this.articleNames, clothes, x, y);
+        return new Student(clothes, x, y);
     }
 
     generate(x, y) {
@@ -72,7 +118,7 @@ class StudentGen{
             //console.log(this.possibleClothes[i])
             clothes.push(this.getRandom(this.possibleClothes[i]));
         }
-        return new Student(this.articleNames, clothes, x, y);
+        return new Student(clothes, x, y);
     }
     // Reset the list of possible clothes
     resetClothes() {
