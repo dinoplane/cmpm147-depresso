@@ -22,16 +22,16 @@ class Student{
         fill("#e0e6ff");
         noStroke();
 
-        circle(this.x, this.y -9, 28); // head
-        arc(this.x, this.y +50, 32, 90, PI, 0, CHORD); // body
-        arc(this.x -7, this.y +50, 7, 30, 0, radians(180)); // left leg
-        arc(this.x +7, this.y +50, 7, 30, 0, radians(180)); // right leg
+        circle(this.x, this.y -36, 32); // head
+        arc(this.x, this.y +40, 35, 120, PI, 0, CHORD); // body
+        arc(this.x -8, this.y +38, 8, 40, 0, radians(180)); // left leg
+        arc(this.x +8, this.y +38, 8, 40, 0, radians(180)); // right leg
 
-        translate(this.x -16, this.y +17);
+        translate(this.x -17, this.y -5);
         rotate(45);
-        ellipse(0, 0, 8, 25); // left arm
+        ellipse(0, 0, 9, 35); // left arm
         rotate(45);
-        ellipse(-16, -29, 8, 25); // right arm
+        ellipse(-16.5, -30, 9, 37); // right arm
         pop();
     }
 }
