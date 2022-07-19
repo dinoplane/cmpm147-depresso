@@ -13,6 +13,21 @@ class Student{
             this.attire[articleNames[i]] = colors[i];
         }
     }
+    drawBody(x, y){
+        fill("#e0e6ff");
+        noStroke();
+
+        circle(x/2, y/2, 12); // head
+        arc(x/2, y/2 +27, 15, 40, PI, 0, CHORD); // body
+        arc(x/2 -3, y/2 +26, 4, 20, 0, radians(180)); // left leg
+        arc(x/2 +3, y/2 +26, 4, 20, 0, radians(180)); // right leg
+
+        translate(x/2 -6, y/2 +12);
+        rotate(45);
+        ellipse(0, 0, 4, 15); // left arm
+        rotate(45);
+        ellipse(-6, -12, 4, 15); // right arm
+    }
 }
 
 /*
@@ -61,7 +76,7 @@ class StudentGen{
         let ret = [];
         for (let i = 0; i < n; i++)
             ret.push(this.generateUnique(p[i].x, p[i].y))
-        return ret;        
+        return ret;
     }
 
     // Source: Stack Overflow (https://stackoverflow.com/questions/42591276/remove-a-random-object-from-an-array-and-return-it)
