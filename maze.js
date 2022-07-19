@@ -30,7 +30,7 @@ class Maze{
                                 (this.getCoords(this.start).y*3*TILE_WIDTH+ 1.5*TILE_WIDTH)*scale);
         this.camera = new Camera(this.player, scale);
 
-        this.studentGen = new StudentGen(3, articleColor, articleNames);
+        this.studentGen = new StudentGen(3, articleColor, articleNames, this.camera);
         this.selected = -1;
         this.students = [];
     }
@@ -149,8 +149,23 @@ class Maze{
 
         let n = Math.floor(random(0, endpoints.length));
         
-        console.log(Array.from(endpoints, _ => this.getCoords(_.node)));
-        this.students = this.studentGen.generateNStudents(endpoints.length, Array.from(endpoints, _ => this.getCoords(_)));
+        console.log(Array.from(endpoints, _ => {
+            let ret = this.getCoords(_.node);
+            console.log((ret.x*3*TILE_WIDTH + 1.5*TILE_WIDTH))
+            ret.x = (ret.x*3*TILE_WIDTH + 1.5*TILE_WIDTH)*this.camera.scale;
+            ret.y = (ret.y*3*TILE_WIDTH + 1.5*TILE_WIDTH)*this.camera.scale;
+            return ret;
+        
+        }));
+        this.students = this.studentGen.generateNStudents(endpoints.length, Array.from(endpoints, _ => this.getCoords(_.node)),
+            Array.from(endpoints, _ => {
+                let ret = this.getCoords(_.node);
+                console.log((ret.x*3*TILE_WIDTH + 1.5*TILE_WIDTH))
+                ret.x = (ret.x*3*TILE_WIDTH + 1.5*TILE_WIDTH)*this.camera.scale;
+                ret.y = (ret.y*3*TILE_WIDTH + 1.5*TILE_WIDTH)*this.camera.scale;
+                return ret;
+            
+            }));
         console.log(this.students)
         
         this.end = endpoints[n].node;

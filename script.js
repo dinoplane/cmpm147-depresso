@@ -25,7 +25,7 @@ const POSITIONS =   [
 let maze;
 let seed = 0;
 let player;
-const CAMERA_SCALE = 1;
+const CAMERA_SCALE = 4;
 
 let tiles = Array(12);
 function preload(){
@@ -52,6 +52,7 @@ function setup(){
     }
 
     maze = new Maze(MAZE_HEIGHT, MAZE_WIDTH, CAMERA_SCALE);
+    
     maze.generateMaze();
     console.log(maze);
     //let test = new StudentGen(3, articleColor, articleNames);
@@ -69,7 +70,7 @@ function newSeed(){
 }
 
 function draw(){
-    background(220);
+    background("#2C4941");
     if (maze.update())
         newSeed();
     
