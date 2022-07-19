@@ -169,6 +169,7 @@ class Maze{
         console.log(this.students)
         
         this.end = endpoints[n].node;
+        this.endpointStudent = this.students[n];
         
         this.selected = n;
         //console.log(endpoints);

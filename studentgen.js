@@ -38,7 +38,6 @@ class Student{
 
 /*
   Class by Randy Le
-  Note: It is possible that some coding conventions were broken. I kinda threw it together and called it a day.
 */
 class StudentGen{
     constructor(articleCount, articleColor, articleNames, camera){

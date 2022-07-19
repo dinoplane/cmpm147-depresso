@@ -55,11 +55,8 @@ function setup(){
     
     maze.generateMaze();
     console.log(maze);
-    //let test = new StudentGen(3, articleColor, articleNames);
-    createButton("new student").mousePressed(() =>{
-        console.log(test.generateStudent());
-        //console.log(test.possibleClothes);
-    })
+    
+    updateBox();
 }
 
 function newSeed(){
@@ -76,4 +73,7 @@ function draw(){
     
 }
 
-
+function updateBox() {
+    box.innerText = 'this is a test.';
+    console.log("here!")
+}
