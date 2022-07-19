@@ -46,15 +46,15 @@ function setup(){
 
     for (let i = 0; i < 12; i++){
         
-        console.log(tiles[i].width)
+        //console.log(tiles[i].width)
         tiles[i].resize(tiles[i].width*CAMERA_SCALE, 0);
-        console.log(tiles[i].width)
+       // console.log(tiles[i].width)
     }
 
     maze = new Maze(MAZE_HEIGHT, MAZE_WIDTH, CAMERA_SCALE);
     maze.generateMaze();
     console.log(maze);
-    let test = new StudentGen(3, articleColor, articleNames);
+    //let test = new StudentGen(3, articleColor, articleNames);
     createButton("new student").mousePressed(() =>{
         console.log(test.generateStudent());
         //console.log(test.possibleClothes);

@@ -74,4 +74,8 @@ class StudentGen{
         let i = (Math.random() * array.length) | 0;
         return array[i];
     }
+
+    renderStudents(students){
+        for (let s of students);
+    }
 }

@@ -30,7 +30,8 @@ function mousePressed(){
         //console.log(tX  + width/(2*currScale))
       
         let i = checkClicked();
-        if (i != -1){
+        if (i != -1 && v[i].type != "b"){
+            
             for (let n = 0; n < i; n++)
               v.push(v.shift())
         }    
@@ -183,14 +184,32 @@ function setup() {
   function renderCloth(x, y, v, color){
     push();
     fill(color);
+    
     beginShape();
     for (let i = 0; i < v.length; i++){
+      //console.log(i, v[i].type)
+
       if (v[i].type == "v")
         vertex(v[i].x, v[i].y);
       if (v[i].type == "c")
         curveVertex(v[i].x, v[i].y);
-      if (v[i].type == "b")
-        bezierVertex(v[i].x, v[i].y);
+      if (v[i].type == "b"){
+        let bezierCache = [];
+        for( let n = 0; n < 3; n++, i++){
+          //console.log(v[i])
+          if (i >= v.length || v[i].type != "b")
+            break;
+          bezierCache.push(v[i].x, v[i].y)
+        }
+        
+        if (bezierCache.length == 6){
+          bezierVertex(...bezierCache);        
+        }
+        i -= 1;
+        
+        //console.log(bezierCache)
+      }
+        
     }
     
     
@@ -217,9 +236,13 @@ function setup() {
     }
     
     
-    fill("yellow");
-    for (i = 1; i < v.length-1; i++){
 
+    for (i = 1; i < v.length-1; i++){
+        if (v[i+1].type == "b")
+          fill("purple");
+        else if (v[i].type == "b")
+          fill("purple");
+        else fill("yellow");
         circle(v[i].x, v[i].y, 10);
     };
     

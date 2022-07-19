@@ -31,7 +31,7 @@ class Maze{
         this.camera = new Camera(this.player, scale);
 
         this.studentGen = new StudentGen(3, articleColor, articleNames);
-        let selected = -1;
+        this.selected = -1;
         this.students = [];
     }
 
@@ -42,6 +42,8 @@ class Maze{
         //console.log(state)
         this.player.update(state, this.camera.scale);
         this.camera.update(this.player);
+
+        this.studentGen.renderStudents(this.students);
 
         return state.atGoal;
         //console.log(this.camera)
@@ -147,7 +149,9 @@ class Maze{
 
         let n = Math.floor(random(0, endpoints.length));
         
+        console.log(Array.from(endpoints, _ => this.getCoords(_.node)));
         this.students = this.studentGen.generateNStudents(endpoints.length, Array.from(endpoints, _ => this.getCoords(_)));
+        console.log(this.students)
         
         this.end = endpoints[n].node;
         
