@@ -1,4 +1,4 @@
-const articleColor = ['red', 'blue', 'green'];
+const articleColor = ['#B89C88', '#563C3F', '#423E5E'];
 const articleNames = ['something1', "something2", "something3"];
 
 
@@ -30,7 +30,7 @@ class Student{
         arc(this.x +8, this.y +38, 8, 40, 0, radians(180)); // right leg
         fill("black")
         circle(this.x, this.y, 10)
-        
+
         fill("#e0e6ff");
         noStroke();
         translate(this.x -17, this.y -5);
@@ -38,8 +38,8 @@ class Student{
         ellipse(0, 0, 9, 35); // left arm
         rotate(45);
         ellipse(-16.5, -30, 9, 37); // right arm
-       
-        
+
+
         pop();
     }
 
@@ -76,21 +76,21 @@ class Student{
 
                 bezierCache.push(vx, vy)
             }
-            
+
             if (bezierCache.length == 6){
-              bezierVertex(...bezierCache);        
+              bezierVertex(...bezierCache);
             }
             i -= 1;
-            
+
             //console.log(bezierCache)
           }
-            
+
         }
-        
-        
+
+
         endShape(CLOSE);
         pop();
-        
+
       }
 
     drawUniform(){
