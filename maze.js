@@ -251,37 +251,42 @@ class Maze{
         noStroke();
         fill(CORN_COLOR);
 
-        //get n_code
-        let n_code = 0;
+        //get neighbors
+        //let n_code = 0;
         let n_array = Array(4).fill(false);
         let checks = [(c) => { return this.wallOnLeft(c)},
             (c) => { return this.wallOnTop(c)},
             (c) => { return this.wallOnRight(c)},
             (c) => { return this.wallOnBottom(c)}];
-        //console.log(cell)
+        
         for (let n = 0; n < 4; n++){
-            image(ground[(ckb == 0)*1], POSITIONS[n][0]*this.camera.scale,
-                                                POSITIONS[n][1]*this.camera.scale)
+
             if (checks[n](cell)){
                 image(tiles[n+8], POSITIONS[n][0]*this.camera.scale,
                                     POSITIONS[n][1]*this.camera.scale)
-                n_code |= 2**(n);
-                n_array[n] = true;
+                //n_code |= 2**(n);
+                n_array[n] = true;                
+            }else {
+                image(ground[(ckb == 0)*1], POSITIONS[n][0]*this.camera.scale,
+                POSITIONS[n][1]*this.camera.scale)
             }
-
-
-
         }
-        text(n_code, TILE_WIDTH*1.5*this.camera.scale, TILE_WIDTH*1.5*this.camera.scale)
+        //text(n_code, TILE_WIDTH*1.5*this.camera.scale, TILE_WIDTH*1.5*this.camera.scale)
         //console.log("for", n_code)
         for (let i = 0; i < 4; i++){
-
+            
             // me no like this
-            let n2code = n_code & 3;
+            //let n2code = n_code & 3;
+
+            // calculate positions
+            let cx = (((i+1) % 4) <= 1) ? POSITIONS[0][0] : POSITIONS[2][0];
+            let cy = (i <= 1) ? POSITIONS[1][1] : POSITIONS[3][1];
+
             let left = n_array[i];
             let right = n_array[(i+1) % 4];
             let tile_n;
             if (!left && !right){
+                image(ground[ckb], cx* this.camera.scale, cy*this.camera.scale); // ground tile if corner
                 tile_n = i*2;
             } else if (left && !right){
                 tile_n =  i + 8;
@@ -298,13 +303,12 @@ class Maze{
             //console.log(n2code, tile_n)
 
 
-            let cx = (((i+1) % 4) <= 1) ? POSITIONS[0][0] : POSITIONS[2][0];
-            let cy = (i <= 1) ? POSITIONS[1][1] : POSITIONS[3][1];
+
             //console.log(i,cx, cy)
+            
+            image(tiles[tile_n], cx* this.camera.scale, cy*this.camera.scale); 
 
-            image(tiles[tile_n], cx* this.camera.scale, cy*this.camera.scale);
-
-            n_code = this.rightRotate(n_code, 1);
+            //n_code = this.rightRotate(n_code, 1);
         }
 
         // fetch cell
