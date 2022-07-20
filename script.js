@@ -25,7 +25,7 @@ const POSITIONS =   [
 let maze;
 let seed = 0;
 let player;
-const CAMERA_SCALE = 1;
+const CAMERA_SCALE = 4;
 
 let tiles = Array(12);
 function preload(){
@@ -46,14 +46,17 @@ function setup(){
 
     for (let i = 0; i < 12; i++){
         
-        console.log(tiles[i].width)
+        //console.log(tiles[i].width)
         tiles[i].resize(tiles[i].width*CAMERA_SCALE, 0);
-        console.log(tiles[i].width)
+       // console.log(tiles[i].width)
     }
 
     maze = new Maze(MAZE_HEIGHT, MAZE_WIDTH, CAMERA_SCALE);
+    
     maze.generateMaze();
     console.log(maze);
+    
+    updateBox();
 }
 
 function newSeed(){
@@ -61,13 +64,27 @@ function newSeed(){
     randomSeed(seed);
     maze.resetMaze();
     maze.generateMaze();
+    updateBox();
 }
 
 function draw(){
-    background(220);
+    background("#2C4941");
     if (maze.update())
         newSeed();
     
 }
 
+function updateBox() {
+    //console.log(select('#box').elt.innerText)
+    let uniform = maze.getGoalStudent().attire;
+    let starter = "Deliver the coffee to the student with the "
+    let i = 0;
+    for(; i < articleNames.length - 1; i++){
+        
+        starter += `${uniform[articleNames[i]]} ${articleNames[i]}, `;
+    }
+    starter += `and ${uniform[articleNames[i]]} ${articleNames[i]}.`;
+
+    select('#box').elt.innerText = starter;
+}
 
