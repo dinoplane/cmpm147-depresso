@@ -1,6 +1,3 @@
-function preload(){
-
-}
 const TILE_WIDTH = 33;
 const CELL_WIDTH = TILE_WIDTH * 3;
 const MAZE_WIDTH = 10;
@@ -21,7 +18,7 @@ const POSITIONS =   [
                         [   TILE_WIDTH,    2*TILE_WIDTH]
                     ];
 
-
+let song;
 let maze;
 let seed = 0;
 let player;
@@ -30,8 +27,10 @@ const CAMERA_SCALE = 2;
 let tiles = Array(12);
 let ground = Array(2);
 function preload(){
+    //song = loadSound("assets/song.mp3");
+
     for (let i = 0; i < 12; i++){
-        
+
         tiles[i] = loadImage(`./assets/${i}.png`);
     }
     for (let i = 0; i < 2; i++){
@@ -43,14 +42,15 @@ function preload(){
 function setup(){
     createCanvas(TILE_WIDTH*MAZE_WIDTH*3, TILE_WIDTH*MAZE_HEIGHT*3);
     createButton("reroll (debug)").mousePressed(() =>{
-                              
+
         newSeed();
       });
+    //song.play();
     randomSeed(seed);
     //player = new Player(0,0);
 
     for (let i = 0; i < 12; i++){
-        
+
         //console.log(tiles[i].width)
         tiles[i].resize(TILE_WIDTH*CAMERA_SCALE, 0);
        // console.log(tiles[i].width)
@@ -63,10 +63,10 @@ function setup(){
     }
 
     maze = new Maze(MAZE_HEIGHT, MAZE_WIDTH, CAMERA_SCALE);
-    
+
     maze.generateMaze();
     console.log(maze);
-    
+
     updateBox();
 }
 
@@ -82,7 +82,7 @@ function draw(){
     background("#2C4941");
     if (maze.update())
         newSeed();
-    
+
 }
 
 function updateBox() {
@@ -91,11 +91,10 @@ function updateBox() {
     let starter = "Deliver the coffee to the student with the "
     let i = 0;
     for(; i < articleNames.length - 1; i++){
-        
+
         starter += `${uniform[articleNames[i]]} ${articleNames[i]}, `;
     }
     starter += `and ${uniform[articleNames[i]]} ${articleNames[i]}.`;
 
     select('#box').elt.innerText = starter;
 }
-
