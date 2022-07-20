@@ -27,7 +27,7 @@ const a =  [
     {type: "v", x: 80, y: 142},
   ];
   
-  const CLOTHES = {"something1": SHIRT, "something2": a, "something3": SHIRT};
+  const CLOTHES = {"something1": SHIRT, "something2": SHIRT, "something3": SHIRT};
 
 // class StudentRender{
 //     renderHat(){

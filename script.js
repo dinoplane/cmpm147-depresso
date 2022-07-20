@@ -27,7 +27,7 @@ const POSITIONS =   [
 let maze;
 let seed = 0;
 let player;
-const CAMERA_SCALE = 4;
+const CAMERA_SCALE = 2;
 
 let tiles = Array(12);
 function preload(){

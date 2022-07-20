@@ -20,6 +20,7 @@ class Student{
     drawBody(){
 
         push();
+        scale(1/CAMERA_SCALE)
         fill("#e0e6ff");
         noStroke();
 
@@ -46,6 +47,8 @@ class Student{
 
     renderCloth( v, color){
         push();
+        scale(1/CAMERA_SCALE)
+
         stroke(1);
         fill(color);
 
@@ -54,8 +57,8 @@ class Student{
         beginShape();
         for (let i = 0; i < v.length; i++){
           //console.log(i, v[i].type)
-          vx = v[i].x - 3*TILE_WIDTH;
-          vy = v[i].y - 3*TILE_WIDTH;
+          vx = v[i].x - 3*TILE_WIDTH - 1;
+          vy = v[i].y - 3*TILE_WIDTH- 1;
 
           if (v[i].type == "v")
             vertex(vx, vy);
@@ -68,8 +71,8 @@ class Student{
 
                 if (i >= v.length || v[i].type != "b")
                     break;
-                vx = v[i].x - 3*TILE_WIDTH;
-                vy = v[i].y - 3*TILE_WIDTH;
+                vx = v[i].x - 3*TILE_WIDTH-1;
+                vy = v[i].y - 3*TILE_WIDTH-1 ;
 
                 bezierCache.push(vx, vy)
             }
