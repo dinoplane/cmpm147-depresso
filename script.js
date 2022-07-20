@@ -3,7 +3,7 @@ function preload(){
 }
 const TILE_WIDTH = 33;
 const CELL_WIDTH = TILE_WIDTH * 3;
-const MAZE_WIDTH = 5;
+const MAZE_WIDTH = 10;
 const MAZE_HEIGHT = 5;
 
 const WALL_COLOR = "#000000";
@@ -25,13 +25,18 @@ const POSITIONS =   [
 let maze;
 let seed = 0;
 let player;
-const CAMERA_SCALE = 4;
+const CAMERA_SCALE = 2;
 
 let tiles = Array(12);
+let ground = Array(2);
 function preload(){
     for (let i = 0; i < 12; i++){
         
         tiles[i] = loadImage(`./assets/${i}.png`);
+    }
+    for (let i = 0; i < 2; i++){
+        
+        ground[i] = loadImage(`./assets/ground${i}.png`);
     }
 }
 
@@ -47,7 +52,13 @@ function setup(){
     for (let i = 0; i < 12; i++){
         
         //console.log(tiles[i].width)
-        tiles[i].resize(tiles[i].width*CAMERA_SCALE, 0);
+        tiles[i].resize(TILE_WIDTH*CAMERA_SCALE, 0);
+       // console.log(tiles[i].width)
+    }
+    for (let i = 0; i < 2; i++){
+        
+        //console.log(tiles[i].width)
+        ground[i].resize(TILE_WIDTH*CAMERA_SCALE, 0);
        // console.log(tiles[i].width)
     }
 

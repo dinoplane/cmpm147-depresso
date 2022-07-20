@@ -231,7 +231,10 @@ class Maze{
         //translate(-1.5* TILE_WIDTH*this.camera.scale, -1.5* TILE_WIDTH*this.camera.scale);
         noStroke();
         fill(PATH_COLOR);
+        let ckb = (this.getCoords(cell).x +this.getCoords(cell).y) % 2
+
         rect(0, 0, 3*TILE_WIDTH*this.camera.scale, 3*TILE_WIDTH*this.camera.scale);
+        image(ground[ckb], TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
 
         if (this.start == cell){
             fill(START_COLOR);
@@ -250,27 +253,47 @@ class Maze{
 
         //get n_code
         let n_code = 0;
+        let n_array = Array(4).fill(false);
         let checks = [(c) => { return this.wallOnLeft(c)}, 
             (c) => { return this.wallOnTop(c)}, 
             (c) => { return this.wallOnRight(c)}, 
             (c) => { return this.wallOnBottom(c)}];
         //console.log(cell)
         for (let n = 0; n < 4; n++){
+            image(ground[(ckb == 0)*1], POSITIONS[n][0]*this.camera.scale,
+                                                POSITIONS[n][1]*this.camera.scale)
             if (checks[n](cell)){
                 image(tiles[n+8], POSITIONS[n][0]*this.camera.scale,
                                     POSITIONS[n][1]*this.camera.scale)
-                n_code |= 2**(n);   
-                
-            }
+                n_code |= 2**(n);
+                n_array[n] = true;                
+            } 
+
+
+            
         }
         text(n_code, TILE_WIDTH*1.5*this.camera.scale, TILE_WIDTH*1.5*this.camera.scale)
         //console.log("for", n_code)
         for (let i = 0; i < 4; i++){
+            
             // me no like this
             let n2code = n_code & 3;
+            let left = n_array[i];
+            let right = n_array[(i+1) % 4];
+            let tile_n;
+            if (!left && !right){
+                tile_n = i*2;
+            } else if (left && !right){
+                tile_n =  i + 8;
+            } else if (!left && right){
+                tile_n =  8 + (i+1)%4 
+            } else {
+                tile_n = i*2 + 1
+            }
+
           //  console.log(n2code  )
-            let isWall = ((n2code + 1) % 4) > 1;
-            let tile_n = (!isWall) ? i*2 + ((n2code > 1)*1): 8 + (i+(n2code > 1)*1)% 4;
+            //let isWall = ((n2code + 1) % 4) > 1;
+            //let tile_n = (!isWall) ? i*2 + ((n2code > 1)*1): 8 + (i+(n2code > 1)*1)% 4;
             
             //console.log(n2code, tile_n)
             
