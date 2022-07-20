@@ -1,3 +1,6 @@
+const PLAYER_WIDTH = 48;
+const PLAYER_HEIGHT = 38;
+
 let idleLeft, idleRight, walkLeft, walkRight, count=2;
 class Player{
     constructor(x, y, startCell){
@@ -21,64 +24,32 @@ class Player{
     }
 
     draw(){
+        
         push();
+        
 
-        if(keyIsPressed && keyIsDown(LEFT_ARROW)){
-            image(walkLeft, width/2, height/2);
-            image(this.cup1, width/2 +12, height/2 - 16);
-            image(this.cup2, width/2 +12, height/2 - 16);
-            image(this.cup3, width/2 +12, height/2 - 16);
-            count = 1;
+        let tx = width/2 - PLAYER_WIDTH/2; // top left corner for centering
+        let ty = height/2 - PLAYER_HEIGHT/2;
+
+        if (keyIsPressed){
+            if (keyIsDown(LEFT_ARROW)) count = 1;
+            else if (keyIsDown(RIGHT_ARROW))  count = 2;
+
+            if(count == 1) image(walkLeft, tx, ty);
+            else image(walkRight, tx, ty);
+        } else {
+            if(count == 1) 
+                image(idleLeft, tx, ty);
+            if(count == 2) 
+                image(idleRight, tx, ty);
         }
-        else if(keyIsPressed && keyIsDown(RIGHT_ARROW)){
-            image(walkRight, width/2, height/2);
-            image(this.cup1, width/2 +12, height/2 - 16);
-            image(this.cup2, width/2 +12, height/2 - 16);
-            image(this.cup3, width/2 +12, height/2 - 16);
-            count = 2;
-        }
-        else if(keyIsPressed && keyIsDown(DOWN_ARROW)){
-            if(count == 1) {
-                image(walkLeft, width/2, height/2);
-                image(this.cup1, width/2 +12, height/2 - 16);
-                image(this.cup2, width/2 +12, height/2 - 16);
-                image(this.cup3, width/2 +12, height/2 - 16);
-            }
-            else {
-                image(walkRight, width/2, height/2);
-                image(this.cup1, width/2 +12, height/2 - 16);
-                image(this.cup2, width/2 +12, height/2 - 16);
-                image(this.cup3, width/2 +12, height/2 - 16);
-            }
-        }
-        else if(keyIsPressed && keyIsDown(UP_ARROW)){
-            if(count == 1) {
-                image(walkLeft, width/2, height/2);
-                image(this.cup1, width/2 +12, height/2 - 16);
-                image(this.cup2, width/2 +12, height/2 - 16);
-                image(this.cup3, width/2 +12, height/2 - 16);
-            }
-            else {
-                image(walkRight, width/2, height/2);
-                image(this.cup1, width/2 +12, height/2 - 16);
-                image(this.cup2, width/2 +12, height/2 - 16);
-                image(this.cup3, width/2 +12, height/2 - 16);
-            }
-        }
-        else{
-            if(count == 1) {
-                image(idleLeft, width/2, height/2);
-                image(this.cup1, width/2 +12, height/2 - 16);
-                image(this.cup2, width/2 +12, height/2 - 16);
-                image(this.cup3, width/2 +12, height/2 - 16);
-            }
-            if(count == 2) {
-                image(idleRight, width/2, height/2);
-                image(this.cup1, width/2 +12, height/2 - 16);
-                image(this.cup2, width/2 +12, height/2 - 16);
-                image(this.cup3, width/2 +12, height/2 - 16);
-            }
-        }
+
+        image(this.cup1, tx +12, ty - 16);
+        image(this.cup2, tx +12, ty - 16);
+        image(this.cup3, tx +12, ty - 16);
+
+        fill("cyan")
+        circle(width/2, height/2, 10);
 
         pop();
     }

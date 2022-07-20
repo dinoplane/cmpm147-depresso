@@ -30,8 +30,8 @@ function preload(){
     //song = loadSound("assets/song.mp3");
 
     for (let i = 0; i < 12; i++){
-
-        tiles[i] = loadImage(`./assets/${i}.png`);
+        let fn = String(i).padStart(2, '0');    
+        tiles[i] = loadImage(`./assets/${fn}.png`);
     }
     for (let i = 0; i < 2; i++){
         
