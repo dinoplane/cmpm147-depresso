@@ -14,6 +14,7 @@
 // }
 
 
+
 class Maze{
     constructor(width, length, scale){
         let size = width * length;

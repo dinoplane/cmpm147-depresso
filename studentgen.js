@@ -1,5 +1,5 @@
 const articleColor = ['red', 'blue', 'green'];
-const articleNames = ['shirt', 'pants', 'socks'];
+const articleNames = ['something1', "something2", "something3"];
 
 
 class Student{
@@ -18,6 +18,7 @@ class Student{
         }
     }
     drawBody(){
+
         push();
         fill("#e0e6ff");
         noStroke();
@@ -26,12 +27,18 @@ class Student{
         arc(this.x, this.y +40, 35, 120, PI, 0, CHORD); // body
         arc(this.x -8, this.y +38, 8, 40, 0, radians(180)); // left leg
         arc(this.x +8, this.y +38, 8, 40, 0, radians(180)); // right leg
-
+        fill("black")
+        circle(this.x, this.y, 10)
+        
+        fill("#e0e6ff");
+        noStroke();
         translate(this.x -17, this.y -5);
         rotate(45);
         ellipse(0, 0, 9, 35); // left arm
         rotate(45);
         ellipse(-16.5, -30, 9, 37); // right arm
+       
+        
         pop();
     }
 
@@ -39,25 +46,32 @@ class Student{
 
     renderCloth( v, color){
         push();
-        noStroke();
+        stroke(1);
         fill(color);
-        
-        
+
+        let vx = 0;
+        let vy = 0;
         beginShape();
         for (let i = 0; i < v.length; i++){
           //console.log(i, v[i].type)
-    
+          vx = v[i].x - 3*TILE_WIDTH;
+          vy = v[i].y - 3*TILE_WIDTH;
+
           if (v[i].type == "v")
-            vertex(v[i].x, v[i].y);
+            vertex(vx, vy);
           if (v[i].type == "c")
-            curveVertex(v[i].x, v[i].y);
+            curveVertex(vx, vy);
           if (v[i].type == "b"){
             let bezierCache = [];
             for( let n = 0; n < 3; n++, i++){
               //console.log(v[i])
-              if (i >= v.length || v[i].type != "b")
-                break;
-              bezierCache.push(v[i].x, v[i].y)
+
+                if (i >= v.length || v[i].type != "b")
+                    break;
+                vx = v[i].x - 3*TILE_WIDTH;
+                vy = v[i].y - 3*TILE_WIDTH;
+
+                bezierCache.push(vx, vy)
             }
             
             if (bezierCache.length == 6){
@@ -77,7 +91,11 @@ class Student{
       }
 
     drawUniform(){
-
+        for(let c of articleNames){
+            //console.log(c)
+            //console.log((CLOTHES[c]));
+            this.renderCloth(CLOTHES[c], this.attire[c]);
+        }
     }
 
 }
@@ -92,7 +110,7 @@ class StudentGen{
         this.articleColor = articleColor;
         this.articleNames = articleNames;
         this.possibleClothes = Array.from(Array(this.articleNames.length), _ => articleColor.slice());
-        console.log(this.possibleClothes)
+        //console.log(this.possibleClothes)
         this.camera = camera;
     }
 
@@ -151,6 +169,7 @@ class StudentGen{
                         (s.y*3*TILE_WIDTH + 1.5*TILE_WIDTH)*this.camera.scale - this.camera.offset_y);
 
             s.drawBody();
+            s.drawUniform();
             pop();
         };
     }

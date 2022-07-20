@@ -22,6 +22,8 @@ const POSITIONS =   [
                     ];
 
 
+
+
 let maze;
 let seed = 0;
 let player;
@@ -60,6 +62,7 @@ function setup(){
         console.log(test.generateStudent());
         //console.log(test.possibleClothes);
     })
+    
 }
 
 function newSeed(){
