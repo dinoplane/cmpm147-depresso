@@ -25,58 +25,58 @@ class Player{
 
         if(keyIsPressed && keyIsDown(LEFT_ARROW)){
             image(walkLeft, width/2, height/2);
-            image(this.cup1, width/2, height/2 - 25);
-            image(this.cup2, width/2, height/2 - 25);
-            image(this.cup3, width/2, height/2 - 25);
+            image(this.cup1, width/2 +12, height/2 - 16);
+            image(this.cup2, width/2 +12, height/2 - 16);
+            image(this.cup3, width/2 +12, height/2 - 16);
             count = 1;
         }
         else if(keyIsPressed && keyIsDown(RIGHT_ARROW)){
             image(walkRight, width/2, height/2);
-            image(this.cup1, width/2, height/2 - 25);
-            image(this.cup2, width/2, height/2 - 25);
-            image(this.cup3, width/2, height/2 - 25);
+            image(this.cup1, width/2 +12, height/2 - 16);
+            image(this.cup2, width/2 +12, height/2 - 16);
+            image(this.cup3, width/2 +12, height/2 - 16);
             count = 2;
         }
         else if(keyIsPressed && keyIsDown(DOWN_ARROW)){
             if(count == 1) {
                 image(walkLeft, width/2, height/2);
-                image(this.cup1, width/2, height/2 - 25);
-                image(this.cup2, width/2, height/2 - 25);
-                image(this.cup3, width/2, height/2 - 25);
+                image(this.cup1, width/2 +12, height/2 - 16);
+                image(this.cup2, width/2 +12, height/2 - 16);
+                image(this.cup3, width/2 +12, height/2 - 16);
             }
             else {
                 image(walkRight, width/2, height/2);
-                image(this.cup1, width/2, height/2 - 25);
-                image(this.cup2, width/2, height/2 - 25);
-                image(this.cup3, width/2, height/2 - 25);
+                image(this.cup1, width/2 +12, height/2 - 16);
+                image(this.cup2, width/2 +12, height/2 - 16);
+                image(this.cup3, width/2 +12, height/2 - 16);
             }
         }
         else if(keyIsPressed && keyIsDown(UP_ARROW)){
             if(count == 1) {
                 image(walkLeft, width/2, height/2);
-                image(this.cup1, width/2, height/2 - 25);
-                image(this.cup2, width/2, height/2 - 25);
-                image(this.cup3, width/2, height/2 - 25);
+                image(this.cup1, width/2 +12, height/2 - 16);
+                image(this.cup2, width/2 +12, height/2 - 16);
+                image(this.cup3, width/2 +12, height/2 - 16);
             }
             else {
                 image(walkRight, width/2, height/2);
-                image(this.cup1, width/2, height/2 - 25);
-                image(this.cup2, width/2, height/2 - 25);
-                image(this.cup3, width/2, height/2 - 25);
+                image(this.cup1, width/2 +12, height/2 - 16);
+                image(this.cup2, width/2 +12, height/2 - 16);
+                image(this.cup3, width/2 +12, height/2 - 16);
             }
         }
         else{
             if(count == 1) {
                 image(idleLeft, width/2, height/2);
-                image(this.cup1, width/2, height/2 - 25);
-                image(this.cup2, width/2, height/2 - 25);
-                image(this.cup3, width/2, height/2 - 25);
+                image(this.cup1, width/2 +12, height/2 - 16);
+                image(this.cup2, width/2 +12, height/2 - 16);
+                image(this.cup3, width/2 +12, height/2 - 16);
             }
             if(count == 2) {
                 image(idleRight, width/2, height/2);
-                image(this.cup1, width/2, height/2 - 25);
-                image(this.cup2, width/2, height/2 - 25);
-                image(this.cup3, width/2, height/2 - 25);
+                image(this.cup1, width/2 +12, height/2 - 16);
+                image(this.cup2, width/2 +12, height/2 - 16);
+                image(this.cup3, width/2 +12, height/2 - 16);
             }
         }
 
