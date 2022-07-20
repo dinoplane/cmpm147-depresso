@@ -75,7 +75,7 @@ function draw(){
 }
 
 function updateBox() {
-    console.log(select('#box').elt.innerText)
+    //console.log(select('#box').elt.innerText)
     let uniform = maze.getGoalStudent().attire;
     let starter = "Deliver the coffee to the student with the "
     let i = 0;
