@@ -236,10 +236,8 @@ class Maze{
         push();
         //translate(-1.5* TILE_WIDTH*this.camera.scale, -1.5* TILE_WIDTH*this.camera.scale);
          noStroke();
-        // fill(PATH_COLOR);
         let ckb = (this.getCoords(cell).x +this.getCoords(cell).y) % 2
 
-        //rect(0, 0, 3*TILE_WIDTH*this.camera.scale, 3*TILE_WIDTH*this.camera.scale);
         if (!drawBottom){
             image(ground[ckb], TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
 
@@ -253,9 +251,6 @@ class Maze{
             //     rect(1.3*TILE_WIDTH*this.camera.scale, 1.2*TILE_WIDTH*this.camera.scale, 0.4*TILE_WIDTH*this.camera.scale, 0.6*TILE_WIDTH*this.camera.scale);
             // }
         }
-
-        // noStroke();
-        // fill(CORN_COLOR);
 
         //get neighbors
         let n_array = Array(4).fill(false);
