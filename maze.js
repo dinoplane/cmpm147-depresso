@@ -20,8 +20,8 @@ class Maze{
         let size = width * length;
         // Members added for use in generateMaze
         this.cellCount = size;
-        this.cellLen = length;
-        this.cellWid = width;
+        this.cellWidth = length;
+        this.cellHeight = width;
         this.cells = Array.from(Array(size), _ => Array(size).fill(0));
 
         this.start = Math.floor(random(this.cellCount));
@@ -38,13 +38,16 @@ class Maze{
 
     update(){
 
-        this.render();
+
         let state = this.checkCollide();
         //console.log(state)
+        this.renderTop();
         this.player.update(state, this.camera.scale);
+        this.renderBottom();
         this.camera.update(this.player);
 
         this.studentGen.renderStudents(this.students);
+
 
         return state.atGoal;
         //console.log(this.camera)
@@ -62,10 +65,10 @@ class Maze{
 
     // For simplification of DFS movement
     getCoords(node) {
-        return { x: node % this.cellLen, y: Math.floor(node / this.cellLen) }
+        return { x: node % this.cellWidth, y: Math.floor(node / this.cellWidth) }
     }
     getNode(x, y){
-        return y * this.cellLen + x;
+        return y * this.cellWidth + x;
     }
 
     /*
@@ -106,7 +109,7 @@ class Maze{
                 //console.log('1')
             }
             // Right neighbor
-            if(currentCoords.x + 1 <= this.cellLen - 1 && !visited.includes(this.getNode(currentCoords.x + 1, currentCoords.y    ))) {
+            if(currentCoords.x + 1 <= this.cellWidth - 1 && !visited.includes(this.getNode(currentCoords.x + 1, currentCoords.y    ))) {
                 neighbours.push(this.getNode(currentCoords.x + 1, currentCoords.y));
                 //console.log('2')
             }
@@ -116,7 +119,7 @@ class Maze{
                 //console.log('3')
             }
             // Down neighbor
-            if(currentCoords.y + 1 <= this.cellWid - 1 && !visited.includes(this.getNode(currentCoords.x    , currentCoords.y + 1))) {
+            if(currentCoords.y + 1 <= this.cellHeight - 1 && !visited.includes(this.getNode(currentCoords.x    , currentCoords.y + 1))) {
                 neighbours.push(this.getNode(currentCoords.x, currentCoords.y + 1));
                 //console.log('4')
             }
@@ -187,19 +190,19 @@ class Maze{
     }
 
     wallOnTop(cell){
-        return (cell < this.cellLen) || (this.cells[cell][cell - this.cellLen] == 0);
+        return (cell < this.cellWidth) || (this.cells[cell][cell - this.cellWidth] == 0);
     }
 
     wallOnRight(cell){
-        return (cell % this.cellLen == (this.cellLen - 1)) || (this.cells[cell][cell+1] == 0);
+        return (cell % this.cellWidth == (this.cellWidth - 1)) || (this.cells[cell][cell+1] == 0);
     }
 
     wallOnBottom(cell){
-        return (cell >= this.cellWid*(this.cellLen-1)) || (this.cells[cell][cell + this.cellLen] == 0);
+        return (cell >= this.cellWidth*(this.cellHeight-1)) || (this.cells[cell][cell + this.cellWidth] == 0);
     }
 
     wallOnLeft(cell){
-        return (cell % this.cellLen == 0) || (this.cells[cell][cell -1] == 0);
+        return (cell % this.cellWidth == 0) || (this.cells[cell][cell -1] == 0);
     }
 
 
@@ -226,58 +229,57 @@ class Maze{
     }
 
 
-    drawCell(cell){
-
+    drawCell(cell, drawBottom){
         push();
         //translate(-1.5* TILE_WIDTH*this.camera.scale, -1.5* TILE_WIDTH*this.camera.scale);
-        noStroke();
-        fill(PATH_COLOR);
+         noStroke();
+        // fill(PATH_COLOR);
         let ckb = (this.getCoords(cell).x +this.getCoords(cell).y) % 2
 
-        rect(0, 0, 3*TILE_WIDTH*this.camera.scale, 3*TILE_WIDTH*this.camera.scale);
-        image(ground[ckb], TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
+        //rect(0, 0, 3*TILE_WIDTH*this.camera.scale, 3*TILE_WIDTH*this.camera.scale);
+        if (!drawBottom){
+            image(ground[ckb], TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
 
-        if (this.start == cell){
-            fill(START_COLOR);
-            rect(TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
+            if (this.start == cell){
+                fill(START_COLOR);
+                rect(TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
+            }
+
+            if (this.end == cell){
+                fill(END_COLOR);
+                rect(TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
+            }    
         }
 
-        if (this.end == cell){
-            fill(END_COLOR);
-            rect(TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
-        }
-
-        // stroke(0)
-        // text(cell, TILE_WIDTH*this.camera.scale*1.5, TILE_WIDTH*this.camera.scale*1.5);
-        noStroke();
-        fill(CORN_COLOR);
+        // noStroke();
+        // fill(CORN_COLOR);
 
         //get neighbors
-        //let n_code = 0;
         let n_array = Array(4).fill(false);
         let checks = [(c) => { return this.wallOnLeft(c)},
             (c) => { return this.wallOnTop(c)},
             (c) => { return this.wallOnRight(c)},
             (c) => { return this.wallOnBottom(c)}];
         
-        for (let n = 0; n < 4; n++){
-
+        let n = (!drawBottom) ? 0 : 0;// If we are drawing bottom...
+        for (; n < 4; n++){
             if (checks[n](cell)){
-                image(tiles[n+8], POSITIONS[n][0]*this.camera.scale,
-                                    POSITIONS[n][1]*this.camera.scale)
+                if ((!drawBottom && n < 3) || (drawBottom && n == 3)){ // Draw the top walls and draw the bottom only if we need
+                    image(tiles[n+8], POSITIONS[n][0]*this.camera.scale,
+                        POSITIONS[n][1]*this.camera.scale)
+                }
+                
                 //n_code |= 2**(n);
                 n_array[n] = true;                
             }else {
-                image(ground[(ckb == 0)*1], POSITIONS[n][0]*this.camera.scale,
-                POSITIONS[n][1]*this.camera.scale)
+                if (!drawBottom)
+                    image(ground[(ckb == 0)*1], POSITIONS[n][0]*this.camera.scale,
+                                                POSITIONS[n][1]*this.camera.scale)
             }
         }
         //text(n_code, TILE_WIDTH*1.5*this.camera.scale, TILE_WIDTH*1.5*this.camera.scale)
-        //console.log("for", n_code)
+        //let i = (!drawBottom) ? 0 : 2;// If we are drawing bottom...
         for (let i = 0; i < 4; i++){
-            
-            // me no like this
-            //let n2code = n_code & 3;
 
             // calculate positions
             let cx = (((i+1) % 4) <= 1) ? POSITIONS[0][0] : POSITIONS[2][0];
@@ -287,7 +289,8 @@ class Maze{
             let right = n_array[(i+1) % 4];
             let tile_n;
             if (!left && !right){
-                image(ground[ckb], cx* this.camera.scale, cy*this.camera.scale); // ground tile if corner
+                if (!drawBottom)
+                    image(ground[ckb], cx* this.camera.scale, cy*this.camera.scale); // ground tile if corner
                 tile_n = i*2;
             } else if (left && !right){
                 tile_n =  i + 8;
@@ -297,45 +300,9 @@ class Maze{
                 tile_n = i*2 + 1
             }
 
-          //  console.log(n2code  )
-            //let isWall = ((n2code + 1) % 4) > 1;
-            //let tile_n = (!isWall) ? i*2 + ((n2code > 1)*1): 8 + (i+(n2code > 1)*1)% 4;
-
-            //console.log(n2code, tile_n)
-
-
-
-            //console.log(i,cx, cy)
-            
-            image(tiles[tile_n], cx* this.camera.scale, cy*this.camera.scale); 
-
-            //n_code = this.rightRotate(n_code, 1);
+            if ((!drawBottom && i < 2) || (drawBottom && i >= 2))
+                image(tiles[tile_n], cx* this.camera.scale, cy*this.camera.scale); 
         }
-
-        // fetch cell
-        // Check if on boundaries
-//        Draw top
-        // let x = cell % this.cellLen;
-        // let y = Math.floor(cell / this.cellWid);
-        // fill(WALL_COLOR);
-        // if (this.wallOnTop(cell)){
-        //     rect(TILE_WIDTH*this.camera.scale, 0, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
-        // }
-
-        // // Draw right
-        // if (this.wallOnRight(cell)){
-        //     rect(2*TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
-        // }
-
-        // // Draw Bottom
-        // if (this.wallOnBottom(cell))
-        //     rect(TILE_WIDTH*this.camera.scale, 2*TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
-
-        // // Draw Left
-        // if (this.wallOnLeft(cell)){
-        //     rect(0, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
-        // }
-
         pop();
     }
 
@@ -344,14 +311,49 @@ class Maze{
         for (let i = 0; i < this.cellCount; i++){
             let coords = this.getCoords(i);
             push();
-            translate( (coords.x*3*TILE_WIDTH*this.camera.scale) - this.camera.offset_x, (coords.y*3*TILE_WIDTH*this.camera.scale) - this.camera.offset_y);
+            translate( (coords.x*3*TILE_WIDTH*this.camera.scale) - this.camera.offset_x, 
+                            (coords.y*3*TILE_WIDTH*this.camera.scale) - this.camera.offset_y);
             //console.log(i)
-            this.drawCell(i);
+            this.drawCell(i, false);
 
             pop();
         }
         pop();
     }
+
+    // Render the top layers and bottom layers as separate layers. 
+    renderTop(){
+        push();
+        for (let i = 0; i < this.cellCount; i++){
+            let coords = this.getCoords(i);
+            push();
+            translate( (coords.x*3*TILE_WIDTH*this.camera.scale) - this.camera.offset_x, (coords.y*3*TILE_WIDTH*this.camera.scale) - this.camera.offset_y);
+            //console.log(i)
+            this.drawCell(i, false);
+
+            pop();
+        }
+        pop();
+    }
+
+
+    renderBottom(){
+        push();
+        for (let i = 0; i < this.cellCount; i++){
+            let coords = this.getCoords(i);
+            push();
+            translate( (coords.x*3*TILE_WIDTH*this.camera.scale) - this.camera.offset_x, (coords.y*3*TILE_WIDTH*this.camera.scale) - this.camera.offset_y);
+            //console.log(i)
+            this.drawCell(i, true);
+
+            pop();
+        }
+        pop();
+    }
+
+    
+
+
 
     inCornerRange(i){
         return (i < TILE_WIDTH*this.camera.scale-1) || (i > 2*TILE_WIDTH*this.camera.scale+1);
@@ -359,8 +361,8 @@ class Maze{
 
 
     checkCollide(){
-        let x = Math.floor(map(this.player.x, 0, this.cellLen*CELL_WIDTH*this.camera.scale, 0, this.cellLen));
-        let y = Math.floor(map(this.player.y, 0, this.cellWid*CELL_WIDTH*this.camera.scale, 0, this.cellWid));
+        let x = Math.floor(map(this.player.x, 0, this.cellWidth*CELL_WIDTH*this.camera.scale, 0, this.cellWidth));
+        let y = Math.floor(map(this.player.y, 0, this.cellHeight*CELL_WIDTH*this.camera.scale, 0, this.cellHeight));
         let c = this.getNode(x, y);
 
         this.player.currentCell = c;

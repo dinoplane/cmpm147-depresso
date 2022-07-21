@@ -20,20 +20,20 @@ class Student{
     drawBody(){
 
         push();
-        scale(1/CAMERA_SCALE)
+        scale(1.2/CAMERA_SCALE)
         fill("#e0e6ff");
         noStroke();
 
-        circle(this.x, this.y -36, 32); // head
-        arc(this.x, this.y +40, 35, 120, PI, 0, CHORD); // body
-        arc(this.x -8, this.y +38, 8, 40, 0, radians(180)); // left leg
-        arc(this.x +8, this.y +38, 8, 40, 0, radians(180)); // right leg
+        circle(0, 0 -36, 32); // head
+        arc(0,  40, 35, 120, PI, 0, CHORD); // body
+        arc(-8, +38, 8, 40, 0, radians(180)); // left leg
+        arc( +8,  +38, 8, 40, 0, radians(180)); // right leg
         // fill("black")
         // circle(this.x, this.y, 10)
 
         fill("#e0e6ff");
         noStroke();
-        translate(this.x -17, this.y -5);
+        translate( -17,  -5);
         rotate(45);
         ellipse(0, 0, 9, 35); // left arm
         rotate(45);
@@ -47,7 +47,7 @@ class Student{
 
     renderCloth( v, color){
         push();
-        scale(1/CAMERA_SCALE)
+        scale(1.2/CAMERA_SCALE)
 
         stroke(0);
         fill(color);
