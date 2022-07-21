@@ -47,11 +47,11 @@ class Player{
         }
 
 
-        image(this.cups[0], tx +15, ty - this.cups[0].height+9);
+        image(this.cups[0], tx +15, ty - this.cups[0].height+9 + Math.trunc(5*Math.sin(frameCount*0.11)));
         if (this.visibleCups > 1)
-            image(this.cups[1], tx +15, ty - this.cups[0].height - this.cups[1].height+9);
+            image(this.cups[1], tx +15, ty - this.cups[0].height - this.cups[1].height+9 + Math.trunc(5*Math.sin(frameCount*0.11+0.5)));
         if (this.visibleCups > 2)
-            image(this.cups[2], tx +15, ty - this.cups[0].height - this.cups[1].height - this.cups[2].height+9);
+            image(this.cups[2], tx +15, ty - this.cups[0].height - this.cups[1].height - this.cups[2].height+9 + Math.trunc(5*Math.cos(frameCount*0.11 - 0.1)));
 
         pop();
     }

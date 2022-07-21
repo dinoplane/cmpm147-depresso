@@ -1,6 +1,6 @@
 const TILE_WIDTH = 33;
 const CELL_WIDTH = TILE_WIDTH * 3;
-const MAZE_WIDTH = 10;
+const MAZE_WIDTH = 5;
 const MAZE_HEIGHT = 5;
 
 const WALL_COLOR = "#000000";
@@ -42,27 +42,21 @@ function preload(){
 }
 
 function setup(){
-    createCanvas(TILE_WIDTH*MAZE_WIDTH*3, TILE_WIDTH*MAZE_HEIGHT*3);
-    createButton("new path").mousePressed(() =>{
+    createCanvas(400, 400);
+    // createButton("new path").mousePressed(() =>{
 
-        newSeed();
-      });
+    //     newSeed();
+    //   });
     song.play();
     song.loop();
-    randomSeed(seed);
+    //randomSeed(seed);
     //player = new Player(0,0);
 
     for (let i = 0; i < 12; i++){
-
-        //console.log(tiles[i].width)
         tiles[i].resize(TILE_WIDTH*CAMERA_SCALE, 0);
-       // console.log(tiles[i].width)
     }
     for (let i = 0; i < 2; i++){
-
-        //console.log(tiles[i].width)
         ground[i].resize(TILE_WIDTH*CAMERA_SCALE, 0);
-       // console.log(tiles[i].width)
     }
 
     maze = new Maze(MAZE_HEIGHT, MAZE_WIDTH, CAMERA_SCALE);
@@ -74,8 +68,7 @@ function setup(){
 }
 
 function newSeed(){
-    seed++;
-    randomSeed(seed);
+
     maze.resetMaze();
     maze.generateMaze();
     updateBox();
