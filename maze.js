@@ -378,7 +378,7 @@ class Maze{
             touchingTop:    (cy <= TILE_WIDTH*this.camera.scale + 1) && (this.wallOnTop(c) || this.inCornerRange(cx + PLAYER_WIDTH/2) || this.inCornerRange(cx - PLAYER_WIDTH/2)),
             touchingRight:  (cx + PLAYER_WIDTH/2 >= 2*TILE_WIDTH*this.camera.scale-1) && (this.wallOnRight(c) || this.inCornerRange(cy)),
             touchingLeft:   (cx - PLAYER_WIDTH/2 <= TILE_WIDTH*this.camera.scale+1) && (this.wallOnLeft(c) || this.inCornerRange(cy)),
-            touchingBottom: (cy >= 2*TILE_WIDTH*this.camera.scale-1) && (this.wallOnBottom(c) || this.inCornerRange(cx + PLAYER_WIDTH/2) || this.inCornerRange(cx - PLAYER_WIDTH/2)),
+            touchingBottom: (cy + PLAYER_HEIGHT/8 >= 2*TILE_WIDTH*this.camera.scale-1) && (this.wallOnBottom(c) || this.inCornerRange(cx + PLAYER_WIDTH/2) || this.inCornerRange(cx - PLAYER_WIDTH/2)),
             atGoal: (cx >= 1.3*TILE_WIDTH*this.camera.scale && cx <= 1.7*TILE_WIDTH*this.camera.scale) &&
                         (cy >= 1.2*TILE_WIDTH*this.camera.scale && cy <= 1.8*TILE_WIDTH*this.camera.scale) &&
                         (c == this.end)
