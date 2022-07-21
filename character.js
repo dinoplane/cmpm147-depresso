@@ -24,10 +24,8 @@ class Player{
     }
 
     draw(){
-        
-        push();
-        
 
+        push();
         let tx = width/2 - PLAYER_WIDTH/2; // top left corner for centering
         let ty = height/2 - PLAYER_HEIGHT/2;
 
@@ -38,18 +36,15 @@ class Player{
             if(count == 1) image(walkLeft, tx, ty);
             else image(walkRight, tx, ty);
         } else {
-            if(count == 1) 
+            if(count == 1)
                 image(idleLeft, tx, ty);
-            if(count == 2) 
+            if(count == 2)
                 image(idleRight, tx, ty);
         }
 
         image(this.cup1, tx +12, ty - 16);
         image(this.cup2, tx +12, ty - 16);
         image(this.cup3, tx +12, ty - 16);
-
-        fill("cyan")
-        circle(width/2, height/2, 10);
 
         pop();
     }
