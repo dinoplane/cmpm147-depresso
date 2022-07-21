@@ -248,7 +248,7 @@ class Maze{
             if (this.end == cell){
                 fill(END_COLOR);
                 rect(TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
-            }    
+            }
         }
 
         // noStroke();
@@ -260,7 +260,7 @@ class Maze{
             (c) => { return this.wallOnTop(c)},
             (c) => { return this.wallOnRight(c)},
             (c) => { return this.wallOnBottom(c)}];
-        
+
         let n = (!drawBottom) ? 0 : 0;// If we are drawing bottom...
         for (; n < 4; n++){
             if (checks[n](cell)){
@@ -268,9 +268,9 @@ class Maze{
                     image(tiles[n+8], POSITIONS[n][0]*this.camera.scale,
                         POSITIONS[n][1]*this.camera.scale)
                 }
-                
+
                 //n_code |= 2**(n);
-                n_array[n] = true;                
+                n_array[n] = true;
             }else {
                 if (!drawBottom)
                     image(ground[(ckb == 0)*1], POSITIONS[n][0]*this.camera.scale,
@@ -301,7 +301,7 @@ class Maze{
             }
 
             if ((!drawBottom && i < 2) || (drawBottom && i >= 2))
-                image(tiles[tile_n], cx* this.camera.scale, cy*this.camera.scale); 
+                image(tiles[tile_n], cx* this.camera.scale, cy*this.camera.scale);
         }
         pop();
     }
@@ -311,7 +311,7 @@ class Maze{
         for (let i = 0; i < this.cellCount; i++){
             let coords = this.getCoords(i);
             push();
-            translate( (coords.x*3*TILE_WIDTH*this.camera.scale) - this.camera.offset_x, 
+            translate( (coords.x*3*TILE_WIDTH*this.camera.scale) - this.camera.offset_x,
                             (coords.y*3*TILE_WIDTH*this.camera.scale) - this.camera.offset_y);
             //console.log(i)
             this.drawCell(i, false);
@@ -321,7 +321,7 @@ class Maze{
         pop();
     }
 
-    // Render the top layers and bottom layers as separate layers. 
+    // Render the top layers and bottom layers as separate layers.
     renderTop(){
         push();
         for (let i = 0; i < this.cellCount; i++){
@@ -351,7 +351,7 @@ class Maze{
         pop();
     }
 
-    
+
 
 
 
@@ -378,7 +378,7 @@ class Maze{
                     touchingTop:    (cy <= TILE_WIDTH*this.camera.scale + 1) && (this.wallOnTop(c) || this.inCornerRange(cx)) ,
                     touchingRight:  (cx + PLAYER_WIDTH/2 >= 2*TILE_WIDTH*this.camera.scale-1) && (this.wallOnRight(c) || this.inCornerRange(cy)),
                     touchingLeft:   (cx - PLAYER_WIDTH/2 <= TILE_WIDTH*this.camera.scale+1) && (this.wallOnLeft(c) || this.inCornerRange(cy)),
-                    touchingBottom: (cy >= 2*TILE_WIDTH*this.camera.scale-1) && (this.wallOnBottom(c) || this.inCornerRange(cx)),
+                    touchingBottom: (cy >= 1.8*TILE_WIDTH*this.camera.scale-1) && (this.wallOnBottom(c) || this.inCornerRange(cx)),
                     atGoal: (cx >= TILE_WIDTH*this.camera.scale && cx <= 2*TILE_WIDTH*this.camera.scale) &&
                                 (cy >= TILE_WIDTH*this.camera.scale && cy <= 2*TILE_WIDTH*this.camera.scale) &&
                                 (c == this.end)
