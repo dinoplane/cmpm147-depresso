@@ -27,7 +27,7 @@ const CAMERA_SCALE = 3;
 let tiles = Array(12);
 let ground = Array(2);
 function preload(){
-    //song = loadSound("assets/song.mp3");
+    song = loadSound("assets/man_he_is_mega.mp3");
 
     for (let i = 0; i < 12; i++){
         let fn = String(i).padStart(2, '0');    
@@ -45,7 +45,7 @@ function setup(){
 
         newSeed();
       });
-    //song.play();
+    song.play();
     randomSeed(seed);
     //player = new Player(0,0);
 
