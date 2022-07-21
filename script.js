@@ -28,6 +28,7 @@ let tiles = Array(12);
 let ground = Array(2);
 function preload(){
     song = loadSound("assets/man_he_is_mega.mp3");
+    song.setLoop(true);
 
     for (let i = 0; i < 12; i++){
         let fn = String(i).padStart(2, '0');    
@@ -45,7 +46,7 @@ function setup(){
 
         newSeed();
       });
-    song.play();
+    
     randomSeed(seed);
     //player = new Player(0,0);
 
@@ -82,7 +83,8 @@ function draw(){
     background("#BD8C61");
     if (maze.update())
         newSeed();
-
+    if(!song.isPlaying())
+        song.play();
 }
 
 function updateBox() {
