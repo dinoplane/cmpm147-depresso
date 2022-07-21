@@ -12,9 +12,12 @@ class Player{
         walkRight = loadImage('assets/walkRight.gif');
         idleLeft = loadImage('assets/idleLeft.gif');
         idleRight = loadImage('assets/idleRight.gif');
-        this.cup1 = loadImage('assets/cup1.png');
-        this.cup2 = loadImage('assets/cup2.png');
-        this.cup3 = loadImage('assets/cup3.png');
+        this.cups = [];
+        this.cups[0] = loadImage('assets/cup1.png');
+        this.cups[1] = loadImage('assets/cup2.png');
+        this.cups[2] = loadImage('assets/cup3.png');
+        this.shuffleCups();
+        this.visibleCups = this.cups.length;
     }
 
     update(state, scale){
@@ -42,9 +45,12 @@ class Player{
                 image(idleRight, tx, ty);
         }
 
-        image(this.cup1, tx +12, ty - 16);
-        image(this.cup2, tx +12, ty - 16);
-        image(this.cup3, tx +12, ty - 16);
+        
+        image(this.cups[0], tx +12, ty - this.cups[0].height);
+        if (this.visibleCups > 1)
+            image(this.cups[1], tx +12, ty - this.cups[0].height - this.cups[1].height);
+        if (this.visibleCups > 2)
+            image(this.cups[2], tx +12, ty - this.cups[0].height - this.cups[1].height - this.cups[2].height);
 
         pop();
     }
@@ -61,6 +67,35 @@ class Player{
             } else if(keyIsDown(DOWN_ARROW) && !state.touchingBottom){
                 this.y += TILE_WIDTH*0.1 * scale/2;
             }
+        }
+    }
+
+    /* 
+        Function added by Randy Le
+        Source: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+        Uses an edited Fisher-Yates/(Knuth) Shuffle to scramble the coffee cup order
+    */
+    shuffleCups() {
+        let currentIndex = this.cups.length, randomIndex;
+        
+        // While there remain elements to shuffle.
+        while (currentIndex != 0) {
+        
+            // Pick a remaining element.
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+        
+            // And swap it with the current element.
+            [this.cups[currentIndex], this.cups[randomIndex]] = [
+            this.cups[randomIndex], this.cups[currentIndex]];
+        }
+    }
+
+    takeCup() {
+        this.visibleCups--;
+        if (this.visibleCups <= 0) {
+            this.visibleCups = this.cups.length;
+            this.shuffleCups();
         }
     }
 }

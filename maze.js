@@ -57,6 +57,7 @@ class Maze{
         this.start = this.end;
         this.end = -1;
         this.cells.forEach(a => a.fill(0));
+        this.player.takeCup();
     }
 
     removeWall(cell1, cell2){
