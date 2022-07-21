@@ -1,3 +1,21 @@
+const PANT =
+[
+  {type: "v", x: 82, y: 148},
+  {type: "b", x: 82, y: 142},
+  {type: "b", x: 82, y: 134},
+  {type: "b", x: 82, y: 124},
+  {type: "v", x: 84, y: 118},
+  {type: "v", x: 116, y: 118},
+  {type: "b", x: 118, y: 124},
+  {type: "b", x: 118, y: 134},
+  {type: "b", x: 118, y: 142},
+  {type: "v", x: 118, y: 148},
+  {type: "v", x: 104, y: 148},
+  {type: "v", x: 104, y: 140},
+  {type: "v", x: 96, y: 140},
+  {type: "v", x: 96, y: 148},
+];
+
 const SKIRT =
 [
   {type: "v", x: 78, y: 140},
@@ -22,7 +40,6 @@ const RIGHT_SHOES =
   {type: "b", x: 104, y: 160},
   {type: "b", x: 104, y: 152},
 ];
-
 
 /*const SHIRT =
   [
@@ -79,7 +96,7 @@ const a =  [
     {type: "v", x: 80, y: 142},
   ];
 
-  const CLOTHES = {"something1": SHIRT, "something2":  SKIRT, "something3": TIE};
+  const CLOTHES = {"something1": SHIRT, "something2": SKIRT, "something3": TIE};
 
 // class StudentRender{
 //     renderHat(){
