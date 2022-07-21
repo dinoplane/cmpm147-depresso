@@ -1,6 +1,6 @@
-const articleColor = ['#B89C88', '#563C3F', '#3a3369', '#633363', "#15208a", "#143d2e"];
+const articleColor = ['#B89C88', '#563C3F', '#868C96', '#A53529', "#384B6C", "#356E62"];
 const articleNames = ['shirt', "legs", "tie", "shoes"];
-const colorNames = ["tan", "brown", "purple", "red", "blue", "green"];
+const colorNames = ["tan", "brown", "grey", "red", "blue", "green"];
 
 const colorMap = {};
 articleColor.forEach((e, i) => {
