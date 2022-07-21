@@ -28,6 +28,7 @@ let tiles = Array(12);
 let ground = Array(2);
 function preload(){
     song = loadSound("assets/man_he_is_mega.mp3");
+    song.setVolume(0.2);
     song.setLoop(true);
 
     for (let i = 0; i < 12; i++){
