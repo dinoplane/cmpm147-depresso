@@ -42,10 +42,11 @@ class Maze{
         let state = this.checkCollide();
         //console.log(state)
         this.renderTop();
+        this.studentGen.renderStudents(this.students);
         this.player.update(state, this.camera.scale);
         this.renderBottom();
 
-        this.studentGen.renderStudents(this.students);
+        
         this.camera.update(this.player);
 
 
@@ -242,15 +243,15 @@ class Maze{
         if (!drawBottom){
             image(ground[ckb], TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
 
-            if (this.start == cell){
-                fill(START_COLOR);
-                rect(TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
-            }
+            // if (this.start == cell){
+            //     fill(START_COLOR);
+            //     rect(TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
+            // }
 
-            if (this.end == cell){
-                fill(END_COLOR);
-                rect(TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
-            }
+            // if (this.end == cell){
+            //     fill(END_COLOR);
+            //     rect(1.3*TILE_WIDTH*this.camera.scale, 1.2*TILE_WIDTH*this.camera.scale, 0.4*TILE_WIDTH*this.camera.scale, 0.6*TILE_WIDTH*this.camera.scale);
+            // }
         }
 
         // noStroke();
@@ -378,8 +379,8 @@ class Maze{
             touchingRight:  (cx + PLAYER_WIDTH/2 >= 2*TILE_WIDTH*this.camera.scale-1) && (this.wallOnRight(c) || this.inCornerRange(cy)),
             touchingLeft:   (cx - PLAYER_WIDTH/2 <= TILE_WIDTH*this.camera.scale+1) && (this.wallOnLeft(c) || this.inCornerRange(cy)),
             touchingBottom: (cy >= 2*TILE_WIDTH*this.camera.scale-1) && (this.wallOnBottom(c) || this.inCornerRange(cx + PLAYER_WIDTH/2) || this.inCornerRange(cx - PLAYER_WIDTH/2)),
-            atGoal: (cx >= TILE_WIDTH*this.camera.scale && cx <= 2*TILE_WIDTH*this.camera.scale) &&
-                        (cy >= TILE_WIDTH*this.camera.scale && cy <= 2*TILE_WIDTH*this.camera.scale) &&
+            atGoal: (cx >= 1.3*TILE_WIDTH*this.camera.scale && cx <= 1.7*TILE_WIDTH*this.camera.scale) &&
+                        (cy >= 1.2*TILE_WIDTH*this.camera.scale && cy <= 1.8*TILE_WIDTH*this.camera.scale) &&
                         (c == this.end)
         };
         return ret; 
