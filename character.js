@@ -29,6 +29,7 @@ class Player{
     draw(){
 
         push();
+
         let tx = width/2 - PLAYER_WIDTH/2; // top left corner for centering
         let ty = height/2 - PLAYER_HEIGHT/2;
 
