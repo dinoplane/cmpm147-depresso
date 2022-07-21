@@ -42,7 +42,7 @@ function preload(){
 
 function setup(){
     createCanvas(TILE_WIDTH*MAZE_WIDTH*3, TILE_WIDTH*MAZE_HEIGHT*3);
-    createButton("reroll (debug)").mousePressed(() =>{
+    createButton("new path").mousePressed(() =>{
 
         newSeed();
       });
