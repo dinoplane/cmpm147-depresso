@@ -1,5 +1,5 @@
-const articleColor = ['#B89C88', '#563C3F', '#423E5E'];
-const articleNames = ['something1', "something2", "something3"];
+const articleColor = ['#B89C88', '#563C3F', '#423E5E', '#633363', "#141a52", "#143d2e"];
+const articleNames = ['tie', "tie", "tie"];
 
 
 class Student{
@@ -28,8 +28,8 @@ class Student{
         arc(this.x, this.y +40, 35, 120, PI, 0, CHORD); // body
         arc(this.x -8, this.y +38, 8, 40, 0, radians(180)); // left leg
         arc(this.x +8, this.y +38, 8, 40, 0, radians(180)); // right leg
-        fill("black")
-        circle(this.x, this.y, 10)
+        // fill("black")
+        // circle(this.x, this.y, 10)
 
         fill("#e0e6ff");
         noStroke();
@@ -49,7 +49,7 @@ class Student{
         push();
         scale(1/CAMERA_SCALE)
 
-        stroke(1);
+        stroke(0);
         fill(color);
 
         let vx = 0;

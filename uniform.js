@@ -96,7 +96,7 @@ const a =  [
     {type: "v", x: 80, y: 142},
   ];
 
-  const CLOTHES = {"something1": SHIRT, "something2": SKIRT, "something3": TIE};
+  const CLOTHES = {"shirt": SHIRT, "skirt":  SKIRT, "tie": TIE};
 
 // class StudentRender{
 //     renderHat(){
