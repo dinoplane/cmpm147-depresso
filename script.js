@@ -31,11 +31,11 @@ function preload(){
     song.setLoop(true);
 
     for (let i = 0; i < 12; i++){
-        let fn = String(i).padStart(2, '0');    
+        let fn = String(i).padStart(2, '0');
         tiles[i] = loadImage(`./assets/${fn}.png`);
     }
     for (let i = 0; i < 2; i++){
-        
+
         ground[i] = loadImage(`./assets/ground${i}.png`);
     }
 }
@@ -46,7 +46,8 @@ function setup(){
 
         newSeed();
       });
-    
+    song.play();
+    song.loop();
     randomSeed(seed);
     //player = new Player(0,0);
 
@@ -57,7 +58,7 @@ function setup(){
        // console.log(tiles[i].width)
     }
     for (let i = 0; i < 2; i++){
-        
+
         //console.log(tiles[i].width)
         ground[i].resize(TILE_WIDTH*CAMERA_SCALE, 0);
        // console.log(tiles[i].width)
