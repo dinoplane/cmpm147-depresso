@@ -29,7 +29,7 @@ class Player{
         let tx = width/2 - PLAYER_WIDTH/2; // top left corner for centering
         let ty = height/2 - PLAYER_HEIGHT/2;
 
-        if (keyIsPressed){
+        if (keyIsPressed && keyCode >= 37 && keyCode <= 40){ // Only arrows!
             if (keyIsDown(LEFT_ARROW)) count = 1;
             else if (keyIsDown(RIGHT_ARROW))  count = 2;
 

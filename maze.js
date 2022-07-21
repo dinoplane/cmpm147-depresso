@@ -31,7 +31,7 @@ class Maze{
                                 (this.getCoords(this.start).y*3*TILE_WIDTH+ 1.5*TILE_WIDTH)*scale);
         this.camera = new Camera(this.player, scale);
 
-        this.studentGen = new StudentGen(3, articleColor, articleNames, this.camera);
+        this.studentGen = new StudentGen(articleColor, articleNames, this.camera);
         this.selected = -1;
         this.students = [];
     }
@@ -44,9 +44,9 @@ class Maze{
         this.renderTop();
         this.player.update(state, this.camera.scale);
         this.renderBottom();
-        this.camera.update(this.player);
 
         this.studentGen.renderStudents(this.students);
+        this.camera.update(this.player);
 
 
         return state.atGoal;
@@ -57,6 +57,7 @@ class Maze{
         this.start = this.end;
         this.end = -1;
         this.cells.forEach(a => a.fill(0));
+        this.studentGen.resetClothes(); // TO ensure no duplicates
     }
 
     removeWall(cell1, cell2){
@@ -378,7 +379,7 @@ class Maze{
                     touchingTop:    (cy <= TILE_WIDTH*this.camera.scale + 1) && (this.wallOnTop(c) || this.inCornerRange(cx)) ,
                     touchingRight:  (cx + PLAYER_WIDTH/2 >= 2*TILE_WIDTH*this.camera.scale-1) && (this.wallOnRight(c) || this.inCornerRange(cy)),
                     touchingLeft:   (cx - PLAYER_WIDTH/2 <= TILE_WIDTH*this.camera.scale+1) && (this.wallOnLeft(c) || this.inCornerRange(cy)),
-                    touchingBottom: (cy >= 1.8*TILE_WIDTH*this.camera.scale-1) && (this.wallOnBottom(c) || this.inCornerRange(cx)),
+                    touchingBottom: (cy >= 2*TILE_WIDTH*this.camera.scale-1) && (this.wallOnBottom(c) || this.inCornerRange(cx)),
                     atGoal: (cx >= TILE_WIDTH*this.camera.scale && cx <= 2*TILE_WIDTH*this.camera.scale) &&
                                 (cy >= TILE_WIDTH*this.camera.scale && cy <= 2*TILE_WIDTH*this.camera.scale) &&
                                 (c == this.end)

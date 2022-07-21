@@ -22,7 +22,7 @@ let song;
 let maze;
 let seed = 0;
 let player;
-const CAMERA_SCALE = 2;
+const CAMERA_SCALE = 3;
 
 let tiles = Array(12);
 let ground = Array(2);
@@ -79,7 +79,7 @@ function newSeed(){
 }
 
 function draw(){
-    background("#2C4941");
+    background("#BD8C61");
     if (maze.update())
         newSeed();
 
@@ -87,14 +87,16 @@ function draw(){
 
 function updateBox() {
     //console.log(select('#box').elt.innerText)
-    let uniform = maze.getGoalStudent().attire;
-    let starter = "Deliver the coffee to the student with the "
+    let goalStudent = maze.getGoalStudent();
+    let uniform = goalStudent.attire;
+    let starter = "Deliver the coffee to the student with the ";
     let i = 0;
     for(; i < articleNames.length - 1; i++){
-
-        starter += `${uniform[articleNames[i]]} ${articleNames[i]}, `;
+        if (articleNames[i] == "legs")
+            starter += `${colorMap[uniform[articleNames[i]]]} ${goalStudent.legs}, `;
+        else starter += `${colorMap[uniform[articleNames[i]]]} ${articleNames[i]}, `;
     }
-    starter += `and ${uniform[articleNames[i]]} ${articleNames[i]}.`;
+    starter += `and ${colorMap[uniform[articleNames[i]]]} ${articleNames[i]}.`;
 
     select('#box').elt.innerText = starter;
 }
