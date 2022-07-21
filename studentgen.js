@@ -1,15 +1,19 @@
-const articleColor = ['#B89C88', '#563C3F', '#423E5E', '#633363', "#141a52", "#143d2e"];
-const articleNames = ['tie', "tie", "tie"];
+const articleColor = ['#B89C88', '#563C3F', '#3a3369', '#633363', "#15208a", "#143d2e"];
+const articleNames = ['shirt', "legs", "tie", "shoes"];
+const colorNames = ["tan", "brown", "purple", "red", "blue", "green"];
 
+const colorMap = {};
+articleColor.forEach((e, i) => {
+    colorMap[e] = colorNames[i];
+})
 
 class Student{
-    constructor(colors, x, y, tx, ty){
+    constructor(colors, x, y){
 
         this.x = x;
         this.y = y;
 
-        this.tx = tx;
-        this.ty = ty;
+        this.legs = random(["pants", "skirt"]);
 
 
         this.attire = {};
@@ -20,7 +24,7 @@ class Student{
     drawBody(){
 
         push();
-        scale(1.2/CAMERA_SCALE)
+        scale(2/CAMERA_SCALE)
         fill("#e0e6ff");
         noStroke();
 
@@ -47,7 +51,7 @@ class Student{
 
     renderCloth( v, color){
         push();
-        scale(1.2/CAMERA_SCALE)
+        scale(2/CAMERA_SCALE)
 
         stroke(0);
         fill(color);
@@ -97,7 +101,14 @@ class Student{
         for(let c of articleNames){
             //console.log(c)
             //console.log((CLOTHES[c]));
-            this.renderCloth(CLOTHES[c], this.attire[c]);
+            if (c == "legs"){
+                this.renderCloth(CLOTHES[this.legs], this.attire[c]);
+            } else if (c == "shoes"){
+                this.renderCloth(CLOTHES["l_shoe"], this.attire[c]);
+                this.renderCloth(CLOTHES["r_shoe"], this.attire[c]);
+            }
+            else this.renderCloth(CLOTHES[c], this.attire[c]);
+
         }
     }
 
@@ -107,8 +118,8 @@ class Student{
   Class by Randy Le
 */
 class StudentGen{
-    constructor(articleCount, articleColor, articleNames, camera){
-        this.articleCount = articleCount
+    constructor( articleColor, articleNames, camera){
+        this.articleCount = articleNames.length
         this.articleColor = articleColor;
         this.articleNames = articleNames;
         this.possibleClothes = Array.from(Array(this.articleNames.length), _ => articleColor.slice());
