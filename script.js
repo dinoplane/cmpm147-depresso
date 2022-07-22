@@ -18,11 +18,29 @@ const POSITIONS =   [
                         [   TILE_WIDTH,    2*TILE_WIDTH]
                     ];
 
+const CHIP_POS =   [ // tl coords, width, and height
+    [            0,      0, TILE_WIDTH - 3, TILE_WIDTH],
+    [            0,      0, TILE_WIDTH, 2*TILE_WIDTH/3 - 2],
+    [            3,      0, TILE_WIDTH - 3, TILE_WIDTH],
+    [            0,      3, TILE_WIDTH, TILE_WIDTH-3],
+    [            0,      0, TILE_WIDTH, TILE_WIDTH],
+    [            1.5,      1.5, TILE_WIDTH-3, TILE_WIDTH-3],
+    [            1.5,      0, TILE_WIDTH-1.5, 2*TILE_WIDTH/3 -2]
+];
+
+const CORN_POS =   [
+    [            0,      0, TILE_WIDTH - 3, TILE_WIDTH],
+    [            0,      0, TILE_WIDTH, 2*TILE_WIDTH/3 - 2]
+
+];
+
+
+
 let song;
 let maze;
 let seed = 0;
 let player;
-const CAMERA_SCALE = 3;
+const CAMERA_SCALE = 2;
 
 let tiles = Array(12);
 let ground = Array(2);
@@ -68,7 +86,8 @@ function setup(){
 }
 
 function newSeed(){
-
+    randomSeed(maze.end);
+    noiseSeed(maze.start + maze.end)
     maze.resetMaze();
     maze.generateMaze();
     updateBox();
