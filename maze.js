@@ -156,14 +156,7 @@ class Maze{
 
         let n = Math.floor(random(0, endpoints.length));
 
-        console.log(Array.from(endpoints, _ => {
-            let ret = this.getCoords(_.node);
-            console.log((ret.x*3*TILE_WIDTH + 1.5*TILE_WIDTH))
-            ret.x = (ret.x*3*TILE_WIDTH + 1.5*TILE_WIDTH)*this.camera.scale;
-            ret.y = (ret.y*3*TILE_WIDTH + 1.5*TILE_WIDTH)*this.camera.scale;
-            return ret;
 
-        }));
         this.students = this.studentGen.generateNStudents(endpoints.length, Array.from(endpoints, _ => this.getCoords(_.node)),
             Array.from(endpoints, _ => {
                 let ret = this.getCoords(_.node);
@@ -171,17 +164,12 @@ class Maze{
                 ret.x = (ret.x*3*TILE_WIDTH + 1.5*TILE_WIDTH)*this.camera.scale;
                 ret.y = (ret.y*3*TILE_WIDTH + 1.5*TILE_WIDTH)*this.camera.scale;
                 return ret;
-
             }));
-        console.log(this.students)
 
         this.end = endpoints[n].node;
         this.endpointStudent = this.students[n];
 
         this.selected = n;
-        //console.log(endpoints);
-        //console.log(this.end);
-
     }
 
     getGoalStudent(){
@@ -208,29 +196,47 @@ class Maze{
         return (cell % this.cellWidth == 0) || (this.cells[cell][cell -1] == 0);
     }
 
-
-    // From https://www.geeksforgeeks.org/rotate-bits-of-an-integer/
-    /*Function to left rotate n by d bits*/
-
-    leftRotate( n,  d)
-    {
-        /* In n<<d, last d bits are 0. To
-        put first 3 bits of n at
-        last, do bitwise or of n<<d
-        with n >>(INT_BITS - d) */
-        return ((n << d) | (n >> (INT_BITS - d))) & (2**INT_BITS -1);
+    drawChip(x, y, c){
+        fill("#61492f");
+        noStroke();
+        
+        
+//        rect(x,y, 10)
+        beginShape();
+        vertex(x+3*noise(x+c), y+5*noise(y+c));
+        vertex(x+20*noise(x/y*c), y+5*noise(x*y/c));
+        vertex(x+30*noise(x*x, y*c), y+20*noise(y*y, x*c));
+        
+        //vertex(x+10*noise(x+c), y);
+        vertex(x+ 5*noise(x*y, y*x), y+20*noise(x*x, y*y));
+        //vertex(x, y+noise(y+c));
+        
+        endShape(CLOSE);
     }
 
-    /*Function to right rotate n by d bits*/
-    rightRotate( n, d)
-    {
-        /* In n>>d, first d bits are 0.
-        To put last 3 bits of at
-        first, do bitwise or of n>>d
-        with n <<(INT_BITS - d) */
-        return ((n >> d) | (n << (INT_BITS - d))) & (2**INT_BITS -1);
-    }
+    drawChips(tlx, tly, i, c){
+        randomSeed(this.start+this.end+i+c);
+        stroke("red")
+        fill("#00000000")
+        // rect(tlx + CHIP_POS[i][0]*this.camera.scale, 
+        //     tly + CHIP_POS[i][1]*this.camera.scale, 
+        //     CHIP_POS[i][2]*this.camera.scale, 
+        //     CHIP_POS[i][3]*this.camera.scale);
 
+        let dw = CHIP_POS[i][2]*this.camera.scale/3;
+        let dh = CHIP_POS[i][3]*this.camera.scale/3;
+        let dx = tlx + CHIP_POS[i][0]*this.camera.scale;
+        let dy = tly + CHIP_POS[i][1]*this.camera.scale;
+        for (let p = 0; p < 3; p++){
+            dx = tlx + CHIP_POS[i][0]*this.camera.scale;
+            for (let q = 0; q < 3; q++){
+                if (random() > 0.55)
+                    this.drawChip(dx + dw*noise(tlx+p*10 + c, tly+q*10 + c), dy+ dh*noise(tlx+p*10 + c, tly+q*10 + c), c+tlx+tly);
+                dx += dw;
+            }
+            dy += dh;
+        }
+    }
 
     drawCell(cell, drawBottom){
         push();
@@ -240,7 +246,6 @@ class Maze{
 
         if (!drawBottom){
             image(ground[ckb], TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
-
             // if (this.start == cell){
             //     fill(START_COLOR);
             //     rect(TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale, TILE_WIDTH*this.camera.scale);
@@ -259,21 +264,26 @@ class Maze{
             (c) => { return this.wallOnRight(c)},
             (c) => { return this.wallOnBottom(c)}];
 
-        let n = (!drawBottom) ? 0 : 0;// If we are drawing bottom...
-        for (; n < 4; n++){
+        for (let n = 0; n < 4; n++){
+            
             if (checks[n](cell)){
+
                 if ((!drawBottom && n < 3) || (drawBottom && n == 3)){ // Draw the top walls and draw the bottom only if we need
                     image(tiles[n+8], POSITIONS[n][0]*this.camera.scale,
                         POSITIONS[n][1]*this.camera.scale)
+                    this.drawChips(POSITIONS[n][0]*this.camera.scale,
+                        POSITIONS[n][1]*this.camera.scale, n, cell);
+
                 }
 
-                //n_code |= 2**(n);
                 n_array[n] = true;
             }else {
                 if (!drawBottom)
                     image(ground[(ckb == 0)*1], POSITIONS[n][0]*this.camera.scale,
                                                 POSITIONS[n][1]*this.camera.scale)
             }
+            
+
         }
         //text(n_code, TILE_WIDTH*1.5*this.camera.scale, TILE_WIDTH*1.5*this.camera.scale)
         //let i = (!drawBottom) ? 0 : 2;// If we are drawing bottom...
@@ -298,8 +308,19 @@ class Maze{
                 tile_n = i*2 + 1
             }
 
-            if ((!drawBottom && i < 2) || (drawBottom && i >= 2))
+            if ((!drawBottom && i < 2) || (drawBottom && i >= 2)){
                 image(tiles[tile_n], cx* this.camera.scale, cy*this.camera.scale);
+                if (tile_n > 7){
+                    let n = tile_n - 8;
+                    this.drawChips(cx* this.camera.scale, cy*this.camera.scale, n, cell);
+                } else if (tile_n % 2 == 1)
+                    this.drawChips(cx* this.camera.scale, cy*this.camera.scale, 5, cell);
+                else if (tile_n > 3)
+                    this.drawChips(cx* this.camera.scale, cy*this.camera.scale, 5, cell);
+                else if (tile_n < 3)
+                    this.drawChips(cx* this.camera.scale, cy*this.camera.scale, 6, cell);
+                
+            }
         }
         pop();
     }

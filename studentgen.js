@@ -24,7 +24,7 @@ class Student{
     drawBody(){
 
         push();
-        scale(2/CAMERA_SCALE)
+        scale(1/CAMERA_SCALE)
         fill("#e0e6ff");
         noStroke();
 
@@ -51,7 +51,7 @@ class Student{
 
     renderCloth( v, color){
         push();
-        scale(2/CAMERA_SCALE)
+        scale(1/CAMERA_SCALE)
 
         stroke(0);
         fill(color);
