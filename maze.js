@@ -42,8 +42,15 @@ class Maze{
         let state = this.checkCollide();
         //console.log(state)
         this.renderTop();
-        this.studentGen.renderStudents(this.students);
-        this.player.update(state, this.camera.scale);
+        if (this.player.y < ((this.getCoords(this.player.currentCell).y)*CELL_WIDTH + TILE_WIDTH*1.7)*this.camera.scale){
+            
+            this.player.update(state, this.camera.scale);
+            this.studentGen.renderStudents(this.students);
+        } else {
+            this.studentGen.renderStudents(this.students);
+            this.player.update(state, this.camera.scale);
+        }
+           
         this.renderBottom();
 
         

@@ -44,10 +44,15 @@ const CAMERA_SCALE = 2;
 
 let tiles = Array(12);
 let ground = Array(2);
+
+let slurps = Array(2);
 function preload(){
     song = loadSound("assets/bgMusic.mp3");
     song.setVolume(0.2);
     song.setLoop(true);
+
+    slurps[0] = loadSound("assets/yummy.mp3");
+    slurps[1] = loadSound("assets/slurp.wav");
 
     for (let i = 0; i < 12; i++){
         let fn = String(i).padStart(2, '0');
@@ -86,6 +91,7 @@ function setup(){
 }
 
 function newSeed(){
+    slurps[random([0,1])].play();
     randomSeed(maze.end);
     noiseSeed(maze.start + maze.end)
     maze.resetMaze();
