@@ -200,7 +200,7 @@ class Maze{
         fill("#61492f");
         noStroke();
         
-        
+//        circle(x, y, 10)
 //        rect(x,y, 10)
         beginShape();
         vertex(x+3*noise(x+c), y+5*noise(y+c));
@@ -215,9 +215,10 @@ class Maze{
     }
 
     drawChips(tlx, tly, i, c){
-        randomSeed(this.start+this.end+i+c);
-        stroke("red")
-        fill("#00000000")
+        randomSeed(this.start+this.end+c);
+
+        // stroke("red")
+        // fill("#00000000")
         // rect(tlx + CHIP_POS[i][0]*this.camera.scale, 
         //     tly + CHIP_POS[i][1]*this.camera.scale, 
         //     CHIP_POS[i][2]*this.camera.scale, 
@@ -230,7 +231,7 @@ class Maze{
         for (let p = 0; p < 3; p++){
             dx = tlx + CHIP_POS[i][0]*this.camera.scale;
             for (let q = 0; q < 3; q++){
-                if (random() > 0.55)
+                if (random() > 0.4)
                     this.drawChip(dx + dw*noise(tlx+p*10 + c, tly+q*10 + c), dy+ dh*noise(tlx+p*10 + c, tly+q*10 + c), c+tlx+tly);
                 dx += dw;
             }
