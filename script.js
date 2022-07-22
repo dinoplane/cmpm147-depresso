@@ -27,7 +27,7 @@ const CAMERA_SCALE = 3;
 let tiles = Array(12);
 let ground = Array(2);
 function preload(){
-    song = loadSound("assets/man_he_is_mega.mp3");
+    song = loadSound("assets/bgMusic.mp3");
     song.setVolume(0.2);
     song.setLoop(true);
 
