@@ -8,3 +8,6 @@ A p5.js project by Arrian Chi, Jane Tran, and Randy Le. <br/>
 
 ## Interactivity
 Check out our project [Here!](https://dinoplane.github.io/cmpm147-depresso/) <br/>
+
+## Credit
+Background music: Night in Venice by Kevin MacLeod
