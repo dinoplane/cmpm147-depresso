@@ -11,3 +11,6 @@ Check out our project [Here!](https://dinoplane.github.io/cmpm147-depresso/) <br
 
 ## Credit
 Background music: Night in Venice by Kevin MacLeod
+
+Sounds: https://freesound.org/people/dorr1/sounds/338959/
+https://freesound.org/people/benken.23/sounds/568042/
