@@ -42,20 +42,21 @@ const RIGHT_SHOES =
 ];
 
 const SHIRT =
-  [
-    {type: "v", x: 112, y: 96},
-    {type: "v", x: 118, y: 100},
-    {type: "v", x: 124, y: 90},
-    {type: "v", x: 108, y: 84},
-    {type: "v", x: 100, y: 92},
-    {type: "v", x: 92, y: 84},
-    {type: "v", x: 78, y: 92},
-    {type: "v", x: 84, y: 100},
-    {type: "v", x: 88, y: 98},
-    {type: "b", x: 78, y: 118},
-    {type: "b", x: 84, y: 120},
-    {type: "b", x: 118, y: 118},
-  ];
+[
+  {type: "v", x: 118, y: 116},
+  {type: "v", x: 114, y: 98},
+  {type: "v", x: 120, y: 100},
+  {type: "v", x: 124, y: 88},
+  {type: "v", x: 110, y: 86},
+  {type: "b", x: 108, y: 86},
+  {type: "b", x: 100, y: 92},
+  {type: "b", x: 100, y: 92},
+  {type: "v", x: 92, y: 86},
+  {type: "v", x: 80, y: 88},
+  {type: "v", x: 80, y: 104},
+  {type: "v", x: 88, y: 98},
+  {type: "v", x: 82, y: 116},
+];
 
 const TIE =
 [
@@ -75,11 +76,11 @@ const TIE =
 ];
 
   const CLOTHES = {
-                    "shirt": SHIRT, 
-                    "skirt":  SKIRT, 
-                    "tie": TIE, 
-                    "pants": PANT, 
-                    "l_shoe": LEFT_SHOES, 
+                    "shirt": SHIRT,
+                    "skirt":  SKIRT,
+                    "tie": TIE,
+                    "pants": PANT,
+                    "l_shoe": LEFT_SHOES,
                     "r_shoe": RIGHT_SHOES
                   };
 
